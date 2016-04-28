@@ -5,23 +5,34 @@
  */
 package csc545project;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
+import oracle.jdbc.OracleStatement;
 
 /**
  *
  * @author thomas_wilson78
  */
 public class GUI extends javax.swing.JFrame {
+    Connection conn = null;
+    OraclePreparedStatement pst = null;
+    OracleResultSet rs = null;
+    OracleStatement st = null;
+    ArrayList<Ingredient> ingredientsInFridge;
+    ArrayList<Ingredient> ingredients;
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
         updateWMcb();
+        ingredientsInFridge = new ArrayList<Ingredient>();
+        ingredients = new ArrayList<Ingredient>();
     }
 
     /**
@@ -42,6 +53,188 @@ public class GUI extends javax.swing.JFrame {
     private void loadMenuDayWM() {
         
     }
+        public void clearFridgeIngredientFields() {
+        itemTF.setText("");
+        quantityTF.setText("");
+        fgTF.setText("");
+        calTF.setText("");
+        fatTF.setText("");
+        proTF1.setText("");
+        sugarTF.setText("");
+        sodTF.setText("");
+    }
+     public void populateIngredientsDropDown() {
+        conn = ConnectDb.setupConnection();
+
+        try {
+
+            String sql = "select * from Ingredients";
+
+            st = (OracleStatement) conn.createStatement();
+
+            rs = (OracleResultSet) st.executeQuery(sql);
+            ingredients.clear();
+            ArrayList<String> ingredientNames = new ArrayList<String>();
+            while (rs.next()) {
+                String name = rs.getString("ingredient_name");
+                int calories = rs.getInt("calories");
+                float protein = rs.getFloat("protein");
+                float sugar = rs.getFloat("sugar");
+                float fat = rs.getFloat("fat");
+                float sodium = rs.getFloat("sodium");
+                String food_group = rs.getString("food_group");
+                int quantity = rs.getInt("quantity");
+                Ingredient newIngredient = new Ingredient(name, calories, protein, sugar, fat, sodium, food_group, quantity);
+                ingredients.add(newIngredient);
+                ingredientNames.add(name);
+
+            }
+            jComboBox2.setModel(new DefaultComboBoxModel(ingredientNames.toArray()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            ConnectDb.close(rs);
+            ConnectDb.close(conn);
+        }
+    }
+    public void updateFridge() {
+        conn = ConnectDb.setupConnection();
+        DefaultListModel model = new DefaultListModel();
+        try {
+
+            String sql = "select * from Ingredients where quantity>0";
+
+            st = (OracleStatement) conn.createStatement();
+
+            rs = (OracleResultSet) st.executeQuery(sql);
+            ingredientsInFridge.clear();
+            while (rs.next()) {
+                String name = rs.getString("ingredient_name");
+                int calories = rs.getInt("calories");
+                float protein = rs.getFloat("protein");
+                float sugar = rs.getFloat("sugar");
+                float fat = rs.getFloat("fat");
+                float sodium = rs.getFloat("sodium");
+                String food_group = rs.getString("food_group");
+                int quantity = rs.getInt("quantity");
+                Ingredient newIngredient = new Ingredient(name, calories, protein, sugar, fat, sodium, food_group, quantity);
+                ingredientsInFridge.add(newIngredient);
+                model.addElement(name);
+
+            }
+            jList1.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            ConnectDb.close(rs);
+            ConnectDb.close(conn);
+        }
+    }
+        private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {                                          
+        updateFridge();
+        populateIngredientsDropDown();
+    }
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+        String ingrName = (String) jList1.getSelectedValue();
+        Ingredient selectedIngredient = new Ingredient();
+        for (Ingredient ingredient : ingredientsInFridge) {
+            if (ingredient.ingredient_name.equalsIgnoreCase(ingrName)) {
+                selectedIngredient = ingredient;
+            }
+        }
+        itemTF.setText(selectedIngredient.ingredient_name);
+        quantityTF.setText("" + selectedIngredient.quantity + "");
+        fgTF.setText(selectedIngredient.food_group);
+        calTF.setText("" + selectedIngredient.calories + "");
+        fatTF.setText("" + selectedIngredient.fat + "");
+        proTF1.setText("" + selectedIngredient.protein + "");
+        sugarTF.setText("" + selectedIngredient.sugar + "");
+        sodTF.setText("" + selectedIngredient.sodium + "");
+    }                                   
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        String selectedIngredientName = (String) jComboBox2.getSelectedItem();
+        Ingredient selectedIngredient = new Ingredient();
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.ingredient_name.equalsIgnoreCase(selectedIngredientName)) {
+                selectedIngredient = ingredient;
+            }
+        }
+        int updatedQuantity = selectedIngredient.quantity + Integer.parseInt(quanTF.getText());
+
+        conn = ConnectDb.setupConnection();
+        try {
+
+            String sql = "update Ingredients set quantity=? where ingredient_name=?";
+
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            pst.setInt(1, updatedQuantity);
+            pst.setString(2, selectedIngredientName);
+            rs = (OracleResultSet) pst.executeQuery();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            ConnectDb.close(pst);
+            ConnectDb.close(rs);
+            ConnectDb.close(conn);
+        }
+        updateFridge();
+        quanTF.setText("");
+
+    }    
+    private void submitIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                       
+        boolean doesExist = false;
+        for (Ingredient ingredient : ingredients) {
+            if (itemTF.getText().equalsIgnoreCase(ingredient.ingredient_name)) {
+                doesExist = true;
+            }
+        }
+        if (doesExist) {
+            JOptionPane.showMessageDialog(this, "Ingredient Already Exists.");
+            clearFridgeIngredientFields();
+        } else {
+            conn = ConnectDb.setupConnection();
+            try {
+
+                String sql = "insert into ingredients (ingredient_name, calories,"
+                        + " protein, sugar, fat, sodium, food_group, quantity) values (?,?,?,?,?,?,?,?)";
+
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, itemTF.getText());
+                pst.setString(7, fgTF.getText());
+
+                if (Integer.parseInt(calTF.getText()) < 0
+                        || Float.parseFloat(proTF1.getText()) < 0
+                        || Float.parseFloat(sugarTF.getText()) < 0
+                        || Float.parseFloat(fatTF.getText()) < 0
+                        || Float.parseFloat(sodTF.getText()) < 0
+                        || Integer.parseInt(quantityTF.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "All values must be greater than zero.");
+            clearFridgeIngredientFields();
+                } else {
+                    pst.setInt(2, Integer.parseInt(calTF.getText()));
+                    pst.setFloat(3, Float.parseFloat(proTF1.getText()));
+                    pst.setFloat(4, Float.parseFloat(sugarTF.getText()));
+                    pst.setFloat(5, Float.parseFloat(fatTF.getText()));
+                    pst.setFloat(6, Float.parseFloat(sodTF.getText()));
+                    pst.setInt(8,Integer.parseInt(quantityTF.getText()));
+                }
+
+                rs = (OracleResultSet) pst.executeQuery();
+                updateFridge();
+                populateIngredientsDropDown();
+                clearFridgeIngredientFields();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            } finally {
+                ConnectDb.close(pst);
+                ConnectDb.close(rs);
+                ConnectDb.close(conn);
+            }
+        }
+    }    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
