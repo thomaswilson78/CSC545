@@ -1,4 +1,4 @@
-# CSC360
+# CSC545
 Eastern Kentucky University
 Spring 2016
 Create by Thomas Wilson, Cassie Allen, and Ethan Lafave
