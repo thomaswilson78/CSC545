@@ -546,7 +546,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_updateDayButtonMouseClicked
 
     private void addRecipeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRecipeButtonMouseClicked
-        AddRecipe ar = new AddRecipe();
+        AddRecipeGUI ar = new AddRecipeGUI();
         ar.setVisible(true);
     }//GEN-LAST:event_addRecipeButtonMouseClicked
 
