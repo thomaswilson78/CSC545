@@ -31,16 +31,31 @@ public class GUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     private void updateWMcb() {
-        //works!!!!!!!!!!
         WMenu wm = new WMenu();
         ArrayList<String> allRecipe = new ArrayList<>();
         allRecipe = wm.allRecipes();
         mbcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
         mlcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
         mdcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
+        loadMenuDayWM();
     }
     private void loadMenuDayWM() {
-        
+        WMenu wm = new WMenu();
+        String r = wm.changeDay(daycbox.getSelectedItem().toString(), "Breakfast");
+        if (r!=null)
+            mbcbox.setSelectedItem(r);
+        else
+            mbcbox.setSelectedItem("-empty-");
+        r = wm.changeDay(daycbox.getSelectedItem().toString(),"Lunch");
+        if (r!=null)
+            mlcbox.setSelectedItem(r);
+        else
+            mlcbox.setSelectedItem("-empty-");
+        r = wm.changeDay(daycbox.getSelectedItem().toString(),"Dinner");
+        if (r!=null)
+            mdcbox.setSelectedItem(r);
+        else
+            mdcbox.setSelectedItem("-empty-");
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -94,6 +109,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel45 = new javax.swing.JLabel();
         mbcbox = new javax.swing.JComboBox();
         updateDayButton = new javax.swing.JButton();
+        wmClearButton = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList();
@@ -369,6 +385,13 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        wmClearButton.setText("Clear All");
+        wmClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wmClearButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -388,7 +411,11 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jLabel18)
                             .addComponent(jLabel20)
                             .addComponent(mbcbox, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(updateDayButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(updateDayButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(wmClearButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(265, 265, 265))
         );
         jPanel1Layout.setVerticalGroup(
@@ -414,7 +441,9 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mdcbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(updateDayButton)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateDayButton)
+                    .addComponent(wmClearButton))
                 .addContainerGap())
         );
 
@@ -688,8 +717,19 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_submitIngredientButtonMouseClicked
 
     private void daycboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daycboxActionPerformed
-        // TODO add your handling code here:
+        loadMenuDayWM();
     }//GEN-LAST:event_daycboxActionPerformed
+
+    private void wmClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wmClearButtonActionPerformed
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to reset the weekly meal plan?","Warning",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            WMenu wm = new WMenu();
+            wm.resetWeeklyMenu();
+            JOptionPane.showMessageDialog(null, "Meal plan reset successfully.");
+            loadMenuDayWM();
+        }
+    }//GEN-LAST:event_wmClearButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -797,5 +837,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton submitIngredientButton;
     private javax.swing.JTextField sugarTF;
     private javax.swing.JButton updateDayButton;
+    private javax.swing.JButton wmClearButton;
     // End of variables declaration//GEN-END:variables
 }
