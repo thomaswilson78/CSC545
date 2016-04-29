@@ -8,6 +8,7 @@ package csc545project;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,6 +22,9 @@ public class AddRecipeGUI extends javax.swing.JFrame {
      */
     public AddRecipeGUI() {
         initComponents();
+        addCategoriesToTable();
+    }
+    public void addCategoriesToTable() {
         Recipes rp = new Recipes();
         ArrayList<String> cat = new ArrayList<>();
         cat = rp.allCategories();
@@ -29,7 +33,6 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             model.addRow(new Object[]{false,temp});
         }
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -165,7 +168,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(200, 200, 200)
                 .addComponent(addRecButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,31 +207,23 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         //last step
         this.dispose();
     }//GEN-LAST:event_addRecButtonMouseClicked
-    private static final Object lock = new Object();
+    
     private void addCatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCatButtonActionPerformed
-        final AddCategoryGUI ac = new AddCategoryGUI();
-        ac.setVisible(true);
-        Thread t = new Thread() {
-            public void run() {
-                synchronized(lock) {
-                    while(ac.isVisible())
-                        try {
-                            lock.wait();
-                        } catch(InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                }
+        try {
+        String cat = JOptionPane.showInputDialog(rootPane, "Please enter a category:", "Add Category", JOptionPane.PLAIN_MESSAGE);
+            if(cat.charAt(0)==' ') {
+                JOptionPane.showMessageDialog(null, "Not a valid entry.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        };
-        t.start();
-        ac.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent arg0) {
-                synchronized (lock) {
-                    ac.setVisible(false);
-                    lock.notify();
-                }
+            else{
+                Category cg = new Category();
+                cg.addCategory(cat);
+                JOptionPane.showMessageDialog(null, "Item Added Successfully", "Add Category", JOptionPane.PLAIN_MESSAGE);
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.addRow(new Object[]{false,cat});
             }
-        }); 
+        } catch (Exception e) {
+            
+        }
     }//GEN-LAST:event_addCatButtonActionPerformed
 
     /**
