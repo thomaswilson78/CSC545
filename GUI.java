@@ -33,6 +33,7 @@ public class GUI extends javax.swing.JFrame {
     private void updateWMcb() {
         WMenu wm = new WMenu();
         ArrayList<String> allRecipe = new ArrayList<>();
+        String r;
         allRecipe = wm.allRecipes();
         mbcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
         mlcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
@@ -368,7 +369,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel20.setText("Dinner");
 
-        daycbox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday", "Sunday" }));
+        daycbox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" }));
         daycbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 daycboxActionPerformed(evt);
@@ -688,7 +689,12 @@ public class GUI extends javax.swing.JFrame {
         String b = mbcbox.getSelectedItem().toString();
         String l = mlcbox.getSelectedItem().toString();
         String d = mdcbox.getSelectedItem().toString();
-        wm.updateMenu(day, b, l, d);
+        if(wm.updateMenu(day, b, l, d)) {
+            JOptionPane.showMessageDialog(null, "Update Successful!");
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Update Failed!");
+        }
     }//GEN-LAST:event_updateDayButtonMouseClicked
 
     private void addRecipeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRecipeButtonMouseClicked
