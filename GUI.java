@@ -33,7 +33,6 @@ public class GUI extends javax.swing.JFrame {
     private void updateWMcb() {
         WMenu wm = new WMenu();
         ArrayList<String> allRecipe = new ArrayList<>();
-        String r;
         allRecipe = wm.allRecipes();
         mbcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
         mlcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
