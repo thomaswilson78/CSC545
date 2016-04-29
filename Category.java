@@ -16,6 +16,7 @@ public class Category {
             String sql = "insert into category values (?)";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setString(1, cat);
+            pst.executeQuery();
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
