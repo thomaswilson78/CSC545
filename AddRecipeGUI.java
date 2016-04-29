@@ -5,6 +5,8 @@
  */
 package csc545project;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -202,11 +204,31 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         //last step
         this.dispose();
     }//GEN-LAST:event_addRecButtonMouseClicked
-
+    private static final Object lock = new Object();
     private void addCatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCatButtonActionPerformed
-        AddCategoryGUI ac = new AddCategoryGUI();
+        final AddCategoryGUI ac = new AddCategoryGUI();
         ac.setVisible(true);
-        
+        Thread t = new Thread() {
+            public void run() {
+                synchronized(lock) {
+                    while(ac.isVisible())
+                        try {
+                            lock.wait();
+                        } catch(InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                }
+            }
+        };
+        t.start();
+        ac.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent arg0) {
+                synchronized (lock) {
+                    ac.setVisible(false);
+                    lock.notify();
+                }
+            }
+        }); 
     }//GEN-LAST:event_addCatButtonActionPerformed
 
     /**

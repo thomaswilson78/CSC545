@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csc545project;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author it
- */
 public class AddCategoryGUI extends javax.swing.JFrame {
 
     /**
@@ -76,12 +67,16 @@ public class AddCategoryGUI extends javax.swing.JFrame {
 
     private void aCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aCButtonActionPerformed
         Category ct = new Category();
-        if(ct.addCategory(catTF.getText())){
-            JOptionPane.showMessageDialog(null, "Category Successfully Added!");
-            this.dispose();
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Failed to add category.");
+        if(!catTF.getText().equals(""))
+            if(ct.addCategory(catTF.getText())){
+                JOptionPane.showMessageDialog(null, "Category Successfully Added!");
+                this.dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Failed to add category.");
+            }
+        else{
+            JOptionPane.showMessageDialog(null, "Pleae enter a category.");
         }
     }//GEN-LAST:event_aCButtonActionPerformed
 
