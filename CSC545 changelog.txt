@@ -1,0 +1,12 @@
+Changes made to team project files
+	-Created SearchRecipe.java (includes functions to search for recipes)
+	-GUI.java changes
+		-added code for searchBTNActionPerformed
+		-added intializtion code in jTabbedPane2StateChanged
+		-added function initializeSearchTables() to set intial data for ingredients and categories
+		-added imports for defaultTableModel and defaultListModel
+	-Recipe.java Changes
+		-added getRecipeByIngredient function
+		-added getRecipeByCategory function
+	-Ingredient.java Changes
+		-added allIngredientNames function
