@@ -6,7 +6,18 @@
 
 package csc545project;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import oracle.jdbc.OraclePreparedStatement;
+import oracle.jdbc.OracleResultSet;
+
 public class Ingredient {
+    Connection conn = null;
+    OraclePreparedStatement pst = null;
+    OracleResultSet rs = null;
+    
     String ingredient_name;
     int calories;
     float protein;
@@ -30,4 +41,30 @@ public class Ingredient {
         
     }
     
+    public ArrayList<String> allIngredientNames() {
+        ArrayList<String> ingredName = new ArrayList<>();
+        conn = ConnectDB.setupConnnection();
+        try {
+            String sql = "select ingredient_name from Ingredients";
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            rs = (OracleResultSet) pst.executeQuery();
+            
+            while (rs.next()) {
+                ingredName.add(rs.getString("ingredient_name"));
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+            return null;
+        }
+        finally {
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+        }
+        return ingredName;
+    }
 }

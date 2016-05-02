@@ -6,8 +6,12 @@
 package csc545project;
 
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JTable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
 
@@ -131,6 +135,12 @@ public class GUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane2StateChanged(evt);
+            }
+        });
 
         jList2.setMaximumSize(new java.awt.Dimension(39, 96));
         jList2.setMinimumSize(new java.awt.Dimension(39, 96));
@@ -382,6 +392,11 @@ public class GUI extends javax.swing.JFrame {
         updateDayButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 updateDayButtonMouseClicked(evt);
+            }
+        });
+        updateDayButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDayButtonActionPerformed(evt);
             }
         });
 
@@ -698,6 +713,41 @@ public class GUI extends javax.swing.JFrame {
 
     private void searchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBTNActionPerformed
         // TODO add your handling code here:
+        ArrayList<String> ingredList = new ArrayList<String>();
+        ArrayList<String> categList = new ArrayList<String>();
+        ArrayList<String> validList = new ArrayList<String>();
+        //Move data from jTable3 and jTable 2 into  DefaultTableModels for value evaluation
+        DefaultTableModel categTable = (DefaultTableModel) jTable2.getModel();
+        DefaultTableModel ingredTable = (DefaultTableModel) jTable3.getModel();
+        for(int i = 0; i < categTable.getRowCount(); i++)
+        {
+            //If the checkbox for a row is checked selected that rows category
+            if((boolean)categTable.getValueAt(i, 0))
+            {
+                System.out.println(categTable.getValueAt(i, 1));
+                categList.add(categTable.getValueAt(i, 1).toString());
+            }
+                
+        }
+        for(int i = 0; i < ingredTable.getRowCount(); i++)
+        {
+            //If the checkbox for a row is checked selected that rows ingredient
+            if((boolean)ingredTable.getValueAt(i, 0))
+            {
+                System.out.println(ingredTable.getValueAt(i, 1));
+                ingredList.add(ingredTable.getValueAt(i, 1).toString());
+            }
+        }
+        SearchRecipe sr = new SearchRecipe();
+        validList = sr.getValidRecipes(ingredList, categList);
+        DefaultListModel recipeList = new DefaultListModel();
+        
+        for(int i = 0; i < validList.size(); i++)
+        {
+            recipeList.add(i, validList.get(i)); 
+        }
+        
+        jList3.setModel(recipeList);
     }//GEN-LAST:event_searchBTNActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -731,6 +781,41 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_wmClearButtonActionPerformed
 
+    private void updateDayButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDayButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateDayButtonActionPerformed
+
+    private void jTabbedPane2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane2StateChanged
+        // May want to consider using the function for loading tab specific data
+        // such as in search how the database could change if a user has recently
+        // added a new recipe or category.
+        // As it stands the index values for each pane are
+        // Recipe = 0, Fridge = 1, Weekly Menu = 2, Search = 3, Shopping List = 4;
+
+        if(jTabbedPane2.getSelectedIndex() == 3)
+        {
+            initializeSearchTables();
+        }
+    }//GEN-LAST:event_jTabbedPane2StateChanged
+
+    private void initializeSearchTables()
+    {
+        Ingredient ingred = new Ingredient();
+        ArrayList<String> allIngred = ingred.allIngredientNames();
+        DefaultTableModel ingredTable = (DefaultTableModel) jTable3.getModel();
+        for(int i = 0; i < allIngred.size(); i++)
+        {
+            ingredTable.addRow(new Object[] {false ,allIngred.get(i)}); 
+        }
+        
+        Recipes recp = new Recipes();
+        ArrayList<String> allCateg = recp.allCategories();
+        DefaultTableModel categTable = (DefaultTableModel) jTable2.getModel();
+        for(int i = 0; i < allCateg.size(); i++)
+        {
+            categTable.addRow(new Object[] {false ,allCateg.get(i)}); 
+        }
+    }
     /**
      * @param args the command line arguments
      */
