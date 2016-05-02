@@ -3,17 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package csc545project;
 
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
-import oracle.jdbc.OracleStatement;
 
 public class Ingredient {
-
+    Connection conn = null;
+    OraclePreparedStatement pst = null;
+    OracleResultSet rs = null;
+    
     String ingredient_name;
     int calories;
     float protein;
@@ -22,16 +26,10 @@ public class Ingredient {
     float sodium;
     String food_group;
     int quantity;
-    Connection conn = null;
-    OraclePreparedStatement pst = null;
-    OracleResultSet rs = null;
-    OracleStatement st = null;
-
-    Ingredient() {
-
+    Ingredient(){
+        
     }
-
-    Ingredient(String i, int c, float p, float su, float f, float so, String food, int q) {
+    Ingredient(String i, int c, float p, float su, float f, float so, String food, int q){
         ingredient_name = i;
         calories = c;
         protein = p;
@@ -40,98 +38,33 @@ public class Ingredient {
         sodium = so;
         food_group = food;
         quantity = q;
-    }
-    public void addIngredient(int amount){
-        conn = ConnectDB.setupConnnection();
-        try {
-            String sql = "Update Ingredients set quantity=? where ingredient_name=?";
-            quantity+=amount;
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setInt(1, quantity);
-            pst.setString(2,ingredient_name);
-            rs = (OracleResultSet) pst.executeQuery();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-             ConnectDB.close(rs);
-            ConnectDB.close(pst);
-           
-            ConnectDB.close(conn);
-        }
-    
-    }
-        public void subtractIngredient(int amount){
-        if(quantity-amount>=0){
-        conn = ConnectDB.setupConnnection();
-        try {
-            String sql = "Update Ingredients set quantity=? where ingredient_name=?";
-            quantity-=amount;
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setInt(1, quantity);
-            pst.setString(2,ingredient_name);
-            rs = (OracleResultSet) pst.executeQuery();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-             ConnectDB.close(rs);
-            ConnectDB.close(pst);
-           
-            ConnectDB.close(conn);
-        }
-    }
-    }
-    public void setIngredient(String ingrName){
-        conn = ConnectDB.setupConnnection();
-        try {
-            String sql = "select * from Ingredients where ingredient_name=?";
-
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setString(1, ingrName);
-            rs = (OracleResultSet) pst.executeQuery();
-            while (rs.next()) {
-                ingredient_name = rs.getString("ingredient_name");
-                calories = rs.getInt("calories");
-                protein = rs.getFloat("protein");
-                sugar = rs.getFloat("sugar");
-                fat = rs.getFloat("fat");
-                sodium = rs.getFloat("sodium");
-                food_group = rs.getString("food_group");
-                quantity = rs.getInt("quantity");  
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-             ConnectDB.close(rs);
-            ConnectDB.close(pst);
-           
-            ConnectDB.close(conn);
-        }
-    }
-    public DefaultComboBoxModel populateIngredientsDropDown() {
-        conn = ConnectDB.setupConnnection();
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        try {
-
-            String sql = "select ingredient_name from Ingredients";
-
-            st = (OracleStatement) conn.createStatement();
-
-            rs = (OracleResultSet) st.executeQuery(sql);
-            ArrayList<String> ingredientNames = new ArrayList<String>();
-            while (rs.next()) {
-                String name = rs.getString("ingredient_name");
-                model.addElement(name);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            ConnectDB.close(rs);
-            ConnectDB.close(conn);
-        }
         
-        return model;
     }
-
+    
+    public ArrayList<String> allIngredientNames() {
+        ArrayList<String> ingredName = new ArrayList<>();
+        conn = ConnectDB.setupConnnection();
+        try {
+            String sql = "select ingredient_name from Ingredients";
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            rs = (OracleResultSet) pst.executeQuery();
+            
+            while (rs.next()) {
+                ingredName.add(rs.getString("ingredient_name"));
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+            return null;
+        }
+        finally {
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+        }
+        return ingredName;
+    }
 }

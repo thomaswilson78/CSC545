@@ -47,4 +47,60 @@ public class Recipes {
         }
         return cat;
     }
+    
+    public ArrayList<String> getRecipeByIngredient(String ingredientName) {
+        ArrayList<String> recipes = new ArrayList<>();
+        conn = ConnectDB.setupConnnection();
+        try {
+            String sql = "select distinct recipe_name from IngredientsRecipes where ingredient_name = ?";
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            pst.setString(1, ingredientName);
+            rs = (OracleResultSet) pst.executeQuery();
+            
+            while (rs.next()) {
+                recipes.add(rs.getString("recipe_name"));
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+            return null;
+        }
+        finally {
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+        }
+        return recipes;
+    }
+    
+    public ArrayList<String> getRecipeByCategory(String categoryName) {
+        ArrayList<String> recipes = new ArrayList<>();
+        conn = ConnectDB.setupConnnection();
+        try {
+            String sql = "select distinct recipe_name from RecipeCategory where category_name = ?";
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            pst.setString(1, categoryName);
+            rs = (OracleResultSet) pst.executeQuery();
+            
+            while (rs.next()) {
+                recipes.add(rs.getString("recipe_name"));
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+            return null;
+        }
+        finally {
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+        }
+        return recipes;
+    }
 }
