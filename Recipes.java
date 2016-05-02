@@ -21,16 +21,19 @@ public class Recipes {
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
     
-    public ArrayList<String> allCategories() {
-        ArrayList<String> cat = new ArrayList<>();
+    public boolean checkExistingRecipes(String r) {
         conn = ConnectDB.setupConnnection();
         try {
-            String sql = "select category_name from Category";
+            String sql = "select recipe_name from Recipes where recipe_name=?";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            pst.setString(1, r);
             rs = (OracleResultSet) pst.executeQuery();
             
             while (rs.next()) {
-                cat.add(rs.getString("category_name"));
+                ConnectDB.close(conn);
+                ConnectDB.close(pst);
+                ConnectDB.close(rs);
+                return false;
             }
         }
         catch (SQLException e) {
@@ -38,69 +41,50 @@ public class Recipes {
             ConnectDB.close(conn);
             ConnectDB.close(pst);
             ConnectDB.close(rs);
-            return null;
+            return false;
         }
         finally {
             ConnectDB.close(conn);
             ConnectDB.close(pst);
             ConnectDB.close(rs);
         }
-        return cat;
+        return true;
     }
-    
-    public ArrayList<String> getRecipeByIngredient(String ingredientName) {
-        ArrayList<String> recipes = new ArrayList<>();
+    public boolean addRecipes(String name, String inst, ArrayList<String> cat, ArrayList<String> ing) {
         conn = ConnectDB.setupConnnection();
         try {
-            String sql = "select distinct recipe_name from IngredientsRecipes where ingredient_name = ?";
+            String sql = "insert into recipes values (?, ?)";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setString(1, ingredientName);
-            rs = (OracleResultSet) pst.executeQuery();
-            
-            while (rs.next()) {
-                recipes.add(rs.getString("recipe_name"));
+            pst.setString(1, name);
+            pst.setString(2, inst);
+            pst.executeQuery();
+            for (String temp : cat) {
+                sql = "insert into RecipeCategory values (?, ?)";
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, name);
+                pst.setString(2, temp);
+                pst.executeQuery();
             }
+            for (String temp : ing) {
+                sql = "insert into IngredientsRecipes values (?, ?, 1)";
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, name);
+                pst.setString(2, temp);
+                pst.executeQuery();
+            }  
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
             ConnectDB.close(conn);
             ConnectDB.close(pst);
             ConnectDB.close(rs);
-            return null;
+            return false;
         }
         finally {
             ConnectDB.close(conn);
             ConnectDB.close(pst);
             ConnectDB.close(rs);
         }
-        return recipes;
-    }
-    
-    public ArrayList<String> getRecipeByCategory(String categoryName) {
-        ArrayList<String> recipes = new ArrayList<>();
-        conn = ConnectDB.setupConnnection();
-        try {
-            String sql = "select distinct recipe_name from RecipeCategory where category_name = ?";
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setString(1, categoryName);
-            rs = (OracleResultSet) pst.executeQuery();
-            
-            while (rs.next()) {
-                recipes.add(rs.getString("recipe_name"));
-            }
-        }
-        catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-            ConnectDB.close(conn);
-            ConnectDB.close(pst);
-            ConnectDB.close(rs);
-            return null;
-        }
-        finally {
-            ConnectDB.close(conn);
-            ConnectDB.close(pst);
-            ConnectDB.close(rs);
-        }
-        return recipes;
+        return true;
     }
 }

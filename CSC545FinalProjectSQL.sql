@@ -48,11 +48,11 @@ primary key (recipe_name,ingredient_name)
 insert into Recipes VALUES ('Test','1.Test 2.Test 3.Test');
 insert into Recipes VALUES ('Test2','1.Test 2.Test 3.Test');
 insert into Category VALUES ('Breakfast');
-alter table IngredientsRecipes add (constraint ingredientrecipes foreign key (recipe_name) references Recipes(recipe_name) on delete set null);
-alter table IngredientsRecipes add (constraint ingredientrecipes2 foreign key (ingredient_name) references Ingredients(ingredient_name) on delete set null);
+alter table IngredientsRecipes add (constraint ingredientrecipes foreign key (recipe_name) references Recipes(recipe_name) on delete cascade);
+alter table IngredientsRecipes add (constraint ingredientrecipes2 foreign key (ingredient_name) references Ingredients(ingredient_name) on delete cascade);
 
-alter table RecipeCategory add (constraint ingredientcategory foreign key (recipe_name) references Recipes(recipe_name) on delete set null);
-alter table RecipeCategory add (constraint ingredientcategory1 foreign key (category_name) references Category(category_name) on delete set null);
+alter table RecipeCategory add (constraint ingredientcategory foreign key (recipe_name) references Recipes(recipe_name) on delete cascade);
+alter table RecipeCategory add (constraint ingredientcategory1 foreign key (category_name) references Category(category_name) on delete cascade);
 
 alter table WeeklyMenu add (constraint recipenameconstraint foreign key (recipe_name) references Recipes(recipe_name) on delete set null);
 
