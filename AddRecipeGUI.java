@@ -23,13 +23,23 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     public AddRecipeGUI() {
         initComponents();
         addCategoriesToTable();
+        addIngredientsToTable();
     }
     public void addCategoriesToTable() {
-        Recipes rp = new Recipes();
+        Category c = new Category();
         ArrayList<String> cat = new ArrayList<>();
-        cat = rp.allCategories();
+        cat = c.allCategories();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         for (String temp : cat) {
+            model.addRow(new Object[]{false,temp});
+        }
+    }
+    public void addIngredientsToTable() {
+        Ingredient ing = new Ingredient();
+        ArrayList<String> i = new ArrayList<>();
+        i = ing.populateIngredientsTable();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        for (String temp : i) {
             model.addRow(new Object[]{false,temp});
         }
     }
@@ -43,10 +53,10 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        recipeNameTF = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        instructionsTA = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         addCatButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -57,14 +67,15 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add Recipe");
 
         jLabel1.setText("Recipe Name:");
 
         jLabel2.setText("Instructions:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        instructionsTA.setColumns(20);
+        instructionsTA.setRows(5);
+        jScrollPane1.setViewportView(instructionsTA);
 
         jLabel3.setText("Categories:");
 
@@ -106,9 +117,9 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         }
 
         addRecButton.setText("Add Recipe");
-        addRecButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addRecButtonMouseClicked(evt);
+        addRecButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addRecButtonActionPerformed(evt);
             }
         });
 
@@ -151,7 +162,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
+                            .addComponent(recipeNameTF)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -176,7 +187,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(recipeNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -201,13 +212,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    //adds recipe to the database and closes the window
-    private void addRecButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRecButtonMouseClicked
-        
-        //last step
-        this.dispose();
-    }//GEN-LAST:event_addRecButtonMouseClicked
-    
+   
     private void addCatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCatButtonActionPerformed
         try {
         String cat = JOptionPane.showInputDialog(rootPane, "Please enter a category:", "Add Category", JOptionPane.PLAIN_MESSAGE);
@@ -225,6 +230,42 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_addCatButtonActionPerformed
+
+    private void addRecButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecButtonActionPerformed
+        Recipes rec = new Recipes();
+        String r = recipeNameTF.getText();
+        if((!r.equals("")) && rec.checkExistingRecipes(r)) {
+            GUI gui = new GUI();
+
+            String i = instructionsTA.getText();
+            ArrayList<String> cat = new ArrayList<>();
+            ArrayList<String> ing = new ArrayList<>();
+            for (int j=0; j<jTable1.getRowCount(); j++) {
+                if((Boolean)jTable1.getValueAt(j, 0))
+                    cat.add(jTable1.getValueAt(j, 1).toString());
+            }
+            if(cat.size()>0) {
+                for (int j=0; j<jTable2.getRowCount(); j++)
+                    if((Boolean)jTable2.getValueAt(j, 0))
+                        ing.add(jTable2.getValueAt(j, 1).toString());
+                if(ing.size()>0) {
+                    rec.addRecipes(r, i, cat, ing);
+                    gui.updateWMcb();
+                    //last step
+                    this.dispose();
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Please select at least one ingredient.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Please select at least one category.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+            if(r.equals(""))
+                JOptionPane.showMessageDialog(null, "Please enter a recipe name.", "Error", JOptionPane.ERROR_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(null, "Recipe already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_addRecButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,6 +306,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCatButton;
     private javax.swing.JButton addRecButton;
+    private javax.swing.JTextArea instructionsTA;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -274,7 +316,6 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField recipeNameTF;
     // End of variables declaration//GEN-END:variables
 }
