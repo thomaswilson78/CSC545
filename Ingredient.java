@@ -8,6 +8,7 @@ package csc545project;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
 import oracle.jdbc.OracleStatement;
@@ -41,7 +42,32 @@ public class Ingredient {
         food_group = food;
         quantity = q;
     }
-    public void addIngredient(int amount){
+    public DefaultComboBoxModel getFoodGroups(){
+        String[] fgs = {"Fruits", "Vegetables", "Proteins","Dairy","Grains","Sugar/Fat"};
+        return new DefaultComboBoxModel(fgs);
+    }
+    public boolean doesExist(String name){
+        conn = ConnectDB.setupConnnection();
+        boolean doesExist = false;
+        try {
+            String sql = "select * from Ingredients where ingredient_name=?";
+
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            pst.setString(1, name);
+            rs = (OracleResultSet) pst.executeQuery();
+            if(rs.next()){
+                doesExist = true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+             ConnectDB.close(rs);
+            ConnectDB.close(pst);
+            ConnectDB.close(conn);
+        }
+        return doesExist;
+    }
+    public void upIngredient(int amount){
         conn = ConnectDB.setupConnnection();
         try {
             String sql = "Update Ingredients set quantity=? where ingredient_name=?";
@@ -61,6 +87,38 @@ public class Ingredient {
         }
     
     }
+    public boolean addIngredient(String name, int cal, float pro, float sug, float fat, float sod, String fg, int quan){
+        conn = ConnectDB.setupConnnection();
+        boolean success = false;
+            try {
+
+                String sql = "insert into ingredients (ingredient_name, calories,"
+                        + " protein, sugar, fat, sodium, food_group, quantity) values (?,?,?,?,?,?,?,?)";
+
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, name);
+                pst.setString(7, fg);
+                    pst.setInt(2, cal);
+                    pst.setFloat(3, pro);
+                    pst.setFloat(4, sug);
+                    pst.setFloat(5, fat);
+                    pst.setFloat(6, sod);
+                    pst.setInt(8,quan);
+
+                int count = pst.executeUpdate();
+                if(count>0){
+                    success = true;
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                ConnectDB.close(pst);
+                ConnectDB.close(conn);
+            }
+            return success;
+        }
+    
         public void subtractIngredient(int amount){
         if(quantity-amount>=0){
         conn = ConnectDB.setupConnnection();
@@ -117,7 +175,9 @@ public class Ingredient {
             String sql = "select ingredient_name from Ingredients";
 
             st = (OracleStatement) conn.createStatement();
+
             rs = (OracleResultSet) st.executeQuery(sql);
+            ArrayList<String> ingredientNames = new ArrayList<String>();
             while (rs.next()) {
                 String name = rs.getString("ingredient_name");
                 model.addElement(name);
@@ -127,32 +187,10 @@ public class Ingredient {
         } finally {
             ConnectDB.close(rs);
             ConnectDB.close(conn);
-            ConnectDB.close(pst);
         }
         
         return model;
     }
 
-    public ArrayList<String> getIngredientList() {
-        conn = ConnectDB.setupConnnection();
-        ArrayList<String> model = new ArrayList<String>();
-        try {
 
-            String sql = "select ingredient_name from Ingredients";
-            st = (OracleStatement) conn.createStatement();
-            rs = (OracleResultSet) st.executeQuery(sql);
-            while (rs.next()) {
-                model.add(rs.getString("ingredient_name"));
-            }
-        } 
-        catch (Exception e) {
-            System.out.println(e);
-        } 
-        finally {
-            ConnectDB.close(rs);
-            ConnectDB.close(conn);
-            ConnectDB.close(pst);
-        }
-        return model;
-    }
 }
