@@ -117,9 +117,7 @@ public class Ingredient {
             String sql = "select ingredient_name from Ingredients";
 
             st = (OracleStatement) conn.createStatement();
-
             rs = (OracleResultSet) st.executeQuery(sql);
-            ArrayList<String> ingredientNames = new ArrayList<String>();
             while (rs.next()) {
                 String name = rs.getString("ingredient_name");
                 model.addElement(name);
@@ -129,9 +127,32 @@ public class Ingredient {
         } finally {
             ConnectDB.close(rs);
             ConnectDB.close(conn);
+            ConnectDB.close(pst);
         }
         
         return model;
     }
 
+    public ArrayList<String> getIngredientList() {
+        conn = ConnectDB.setupConnnection();
+        ArrayList<String> model = new ArrayList<String>();
+        try {
+
+            String sql = "select ingredient_name from Ingredients";
+            st = (OracleStatement) conn.createStatement();
+            rs = (OracleResultSet) st.executeQuery(sql);
+            while (rs.next()) {
+                model.add(rs.getString("ingredient_name"));
+            }
+        } 
+        catch (Exception e) {
+            System.out.println(e);
+        } 
+        finally {
+            ConnectDB.close(rs);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+        }
+        return model;
+    }
 }

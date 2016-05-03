@@ -37,10 +37,10 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     public void addIngredientsToTable() {
         Ingredient ing = new Ingredient();
         ArrayList<String> i = new ArrayList<>();
-        i = ing.populateIngredientsTable();
+        i = ing.getIngredientList();
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         for (String temp : i) {
-            model.addRow(new Object[]{false,temp});
+            model.addRow(new Object[]{false,temp,1});
         }
     }
     /**
@@ -130,15 +130,22 @@ public class AddRecipeGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Select", "Ingredient"
+                "Select", "Ingredient", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(jTable2);
@@ -146,6 +153,9 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(0).setMinWidth(50);
             jTable2.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTable2.getColumnModel().getColumn(2).setMinWidth(60);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(60);
+            jTable2.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -250,7 +260,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                         ing.add(jTable2.getValueAt(j, 1).toString());
                 if(ing.size()>0) {
                     rec.addRecipes(r, i, cat, ing);
-                    gui.updateWMcb();
+                    //gui.updateWMcb();
                     //last step
                     this.dispose();
                 }
