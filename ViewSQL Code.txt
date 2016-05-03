@@ -1,0 +1,6 @@
+//Create view with ingredient quantites for all recipes in weeklymenu
+
+select i.INGREDIENT_NAME, sum(i.QUANTITYNEEDED)
+FROM ingredientsrecipes i, (select recipe_name from weeklymenu where recipe_name is not null) wm
+WHERE i.RECIPE_NAME = wm.recipe_name 
+group by i.ingredient_name
