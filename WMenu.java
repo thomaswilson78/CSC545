@@ -18,26 +18,21 @@ public class WMenu {
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
 
-    public String changeDay(String day, String meal) {
-        String rec = "";
+    public ArrayList<String> changeDay(String day) {
+        ArrayList<String> rec = new ArrayList<String>();
         conn = ConnectDB.setupConnnection();
         try {
-            String sql = "select recipe_name from WeeklyMenu where weekday=? and meal=?";
+            String sql = "select recipe_name from WeeklyMenu where weekday=?";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setString(1, day);
-            pst.setString(2, meal);
             rs = (OracleResultSet) pst.executeQuery();
             
             while (rs.next()) {
-                rec = rs.getString("recipe_name");
+                rec.add(rs.getString("recipe_name"));
             }
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-            ConnectDB.close(conn);
-            ConnectDB.close(pst);
-            ConnectDB.close(rs);
-            return null;
+            rec=null;
         }
         finally {
             ConnectDB.close(conn);
