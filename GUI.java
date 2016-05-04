@@ -1,3 +1,4 @@
+package csc545project;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -57,10 +58,9 @@ public class GUI extends javax.swing.JFrame {
         sodTF.setText("");
     }
     @SuppressWarnings("unchecked")
-    private void updateWMcb() {
+    public void updateWMcb() {
         WMenu wm = new WMenu();
         ArrayList<String> allRecipe = new ArrayList<>();
-        String r;
         allRecipe = wm.allRecipes();
         mbcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
         mlcbox.setModel(new DefaultComboBoxModel(allRecipe.toArray()));
@@ -249,7 +249,7 @@ public class GUI extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel44)
                                 .addGap(24, 24, 24)))))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,7 +277,7 @@ public class GUI extends javax.swing.JFrame {
                                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2))))))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel10)
@@ -293,6 +293,7 @@ public class GUI extends javax.swing.JFrame {
         });
 
         ingredientList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ingredientList.setDragEnabled(true);
         ingredientList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 ingredientListValueChanged(evt);
@@ -413,7 +414,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jToggleButton1)
                         .addGap(90, 90, 90)
                         .addComponent(jButton1)))
-                .addContainerGap(328, Short.MAX_VALUE))
+                .addContainerGap(313, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -831,8 +832,8 @@ public class GUI extends javax.swing.JFrame {
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to reset the weekly meal plan?","Warning",dialogButton);
         if(dialogResult == JOptionPane.YES_OPTION){
-           // WMenu wm = new WMenu();
-            //wm.resetWeeklyMenu();
+            WMenu wm = new WMenu();
+            wm.resetWeeklyMenu();
             JOptionPane.showMessageDialog(null, "Meal plan reset successfully.");
             loadMenuDayWM();
         }

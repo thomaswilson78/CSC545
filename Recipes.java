@@ -1,3 +1,4 @@
+package csc545project;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -24,14 +25,11 @@ public class Recipes {
     OracleStatement st = null;
     
     public DefaultListModel getRecipeNames(){
-         conn = ConnectDB.setupConnnection();
+        conn = ConnectDB.setupConnnection();
         DefaultListModel model = new DefaultListModel();
         try {
-
             String sql = "select recipe_name from Recipes";
-
             st = (OracleStatement) conn.createStatement();
-
             rs = (OracleResultSet) st.executeQuery(sql);
             while (rs.next()) {
                 model.addElement(rs.getString("recipe_name"));
@@ -45,8 +43,8 @@ public class Recipes {
         return model;
     }
     public DefaultListModel getRecipeIngredients(String recipeName){
-          conn = ConnectDB.setupConnnection();
-       DefaultListModel model = new DefaultListModel();
+        conn = ConnectDB.setupConnnection();
+        DefaultListModel model = new DefaultListModel();
         try {
             String sql = "select ingredient_name from IngredientsRecipes where recipe_name=?";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
@@ -62,6 +60,7 @@ public class Recipes {
             ConnectDB.close(conn);
             ConnectDB.close(pst);
             ConnectDB.close(rs);
+            return null;
         }
         finally {
             ConnectDB.close(conn);
@@ -72,7 +71,7 @@ public class Recipes {
     }
     public String getRecipesInstructions(String recipeName){
         String instructions = "";
-      conn = ConnectDB.setupConnnection();
+        conn = ConnectDB.setupConnnection();
        
         try {
             String sql = "select instructions from Recipes where recipe_name=?";
@@ -99,8 +98,7 @@ public class Recipes {
     }
     public DefaultListModel getRecipeCategory(String recipeName){
               conn = ConnectDB.setupConnnection();
-       DefaultListModel model = new DefaultListModel();
-        boolean doesExist = false;
+        DefaultListModel model = new DefaultListModel();
         try {
             String sql = "select category_name from RecipeCategory where recipe_name=?";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
@@ -134,18 +132,11 @@ public class Recipes {
             pst.setString(1, r);
             rs = (OracleResultSet) pst.executeQuery();
             
-            while (rs.next()) {
-                ConnectDB.close(conn);
-                ConnectDB.close(pst);
-                ConnectDB.close(rs);
+            if (rs.isBeforeFirst())
                 doesExist = true;
-            }
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
-            ConnectDB.close(conn);
-            ConnectDB.close(pst);
-            ConnectDB.close(rs);
         }
         finally {
             ConnectDB.close(conn);
@@ -175,7 +166,7 @@ public class Recipes {
                 pst.setString(1, name);
                 pst.setString(2, temp);
                 pst.executeQuery();
-            }  
+            } 
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
