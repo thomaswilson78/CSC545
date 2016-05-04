@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csc545project;
+
 
 import javax.swing.JOptionPane;
 import java.*;

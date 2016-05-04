@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-package csc545project;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
@@ -17,7 +16,7 @@ import oracle.jdbc.OracleResultSet;
 public class ConnectDB {
     public static Connection setupConnnection() {
         String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
-        String jdbcUrl = "jdbc:oracle:thin:@csc545.cxqvw6gthohp.us-east-1.rds.amazonaws.com:1521:ORCL";
+        String jdbcUrl = "jdbc:oracle:thin:@csc545.cxqvw6gthohp.us-east-1.rds.amazonaws.com:1521/ORCL";
         String username = "recipeuser";
         String password = "recipe#159";
         

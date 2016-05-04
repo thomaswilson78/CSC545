@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csc545project;
+
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,11 +16,12 @@ import javax.swing.table.DefaultTableModel;
  * @author NewLaptop
  */
 public class AddRecipeGUI extends javax.swing.JFrame {
-
+    GUI parentWindow;
     /**
      * Creates new form AddRecipe
      */
-    public AddRecipeGUI() {
+    public AddRecipeGUI(GUI parent) {
+        parentWindow = parent;
         initComponents();
         addCategoriesToTable();
         addIngredientsToTable();
@@ -42,6 +43,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         for (String temp : i) {
             model.addRow(new Object[]{false,temp,1});
         }
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,7 +69,6 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add Recipe");
 
         jLabel1.setText("Recipe Name:");
 
@@ -130,22 +131,15 @@ public class AddRecipeGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Select", "Ingredient", "Quantity"
+                "Select", "Ingredient"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, true
+                java.lang.Boolean.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(jTable2);
@@ -153,9 +147,6 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(0).setMinWidth(50);
             jTable2.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTable2.getColumnModel().getColumn(2).setMinWidth(60);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(60);
-            jTable2.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -189,7 +180,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(200, 200, 200)
                 .addComponent(addRecButton)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +235,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     private void addRecButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecButtonActionPerformed
         Recipes rec = new Recipes();
         String r = recipeNameTF.getText();
-        if((!r.equals("")) && rec.checkExistingRecipes(r)) {
+        if((!r.equals("")) && !rec.checkExistingRecipes(r)) {
             GUI gui = new GUI();
 
             String i = instructionsTA.getText();
@@ -260,9 +251,8 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                         ing.add(jTable2.getValueAt(j, 1).toString());
                 if(ing.size()>0) {
                     rec.addRecipes(r, i, cat, ing);
-                    //gui.updateWMcb();
-                    //last step
-                    this.dispose();
+                    parentWindow.jList2.setModel(rec.getRecipeNames());
+                   this.dispose();
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Please select at least one ingredient.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -308,7 +298,6 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddRecipeGUI().setVisible(true);
             }
         });
     }
