@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csc545project;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
 import oracle.jdbc.OracleStatement;
@@ -45,6 +46,32 @@ public class Ingredient {
     public DefaultComboBoxModel getFoodGroups(){
         String[] fgs = {"Fruits", "Vegetables", "Proteins","Dairy","Grains","Sugar/Fat"};
         return new DefaultComboBoxModel(fgs);
+    }
+    public ArrayList<String> getIngredientList(){
+         ArrayList<String> ingredients = new ArrayList<>();
+        conn = ConnectDB.setupConnnection();
+        try {
+            String sql = "select ingredient_name from Ingredients";
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            rs = (OracleResultSet) pst.executeQuery();
+            
+            while (rs.next()) {
+                ingredients.add(rs.getString("ingredient_name"));
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+            return null;
+        }
+        finally {
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+        }
+        return ingredients;
     }
     public boolean doesExist(String name){
         conn = ConnectDB.setupConnnection();
