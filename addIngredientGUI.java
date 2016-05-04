@@ -1,3 +1,4 @@
+package csc545project;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -70,7 +71,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(submitButton);
-        submitButton.setBounds(150, 350, 122, 23);
+        submitButton.setBounds(150, 350, 122, 25);
 
         ingredientTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         ingredientTF.setMinimumSize(new java.awt.Dimension(20, 19));
@@ -113,7 +114,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
 
         foodGroupCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         getContentPane().add(foodGroupCB);
-        foodGroupCB.setBounds(150, 90, 148, 20);
+        foodGroupCB.setBounds(150, 90, 148, 22);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));

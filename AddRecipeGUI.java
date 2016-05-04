@@ -1,3 +1,4 @@
+package csc545project;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -236,7 +237,6 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         Recipes rec = new Recipes();
         String r = recipeNameTF.getText();
         if((!r.equals("")) && !rec.checkExistingRecipes(r)) {
-            GUI gui = new GUI();
 
             String i = instructionsTA.getText();
             ArrayList<String> cat = new ArrayList<>();
@@ -252,7 +252,8 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                 if(ing.size()>0) {
                     rec.addRecipes(r, i, cat, ing);
                     parentWindow.jList2.setModel(rec.getRecipeNames());
-                   this.dispose();
+                    parentWindow.updateWMcb();
+                    this.dispose();
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Please select at least one ingredient.", "Error", JOptionPane.ERROR_MESSAGE);

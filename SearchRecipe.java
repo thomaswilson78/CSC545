@@ -26,7 +26,7 @@ public class SearchRecipe {
         ArrayList<ArrayList<String>> allRecipes = new ArrayList<ArrayList<String>>();
         for(int i = 0; i < ingred.size(); i++)
         {
-            allRecipes.add(myR.getRecipeByIngredient(ingred.get(i))); 
+            allRecipes.add(myR.getRecipeByIngredient(ingred.get(i)));
         }
         for(int i = 0; i < categ.size(); i++)
         {
