@@ -18,28 +18,21 @@ public class WMenu {
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
 
-    public String changeDay(String day, String meal) {
-        String rec = "";
+    public ArrayList<String> changeDay(String day) {
+        ArrayList<String> rec = new ArrayList<String>();
         conn = ConnectDB.setupConnnection();
         try {
-            String sql = "select recipe_name from WeeklyMenu where weekday=? and meal=?";
+            String sql = "select recipe_name from WeeklyMenu where weekday=?";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setString(1, day);
-            pst.setString(2, meal);
             rs = (OracleResultSet) pst.executeQuery();
             
-            //unfinished, as it is currently, issues can occur where it won't set items
-            //properly.
             while (rs.next()) {
-                rec = rs.getString("recipe_name");
+                rec.add(rs.getString("recipe_name"));
             }
         }
         catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-            ConnectDB.close(conn);
-            ConnectDB.close(pst);
-            ConnectDB.close(rs);
-            return null;
+            rec=null;
         }
         finally {
             ConnectDB.close(conn);
@@ -76,32 +69,59 @@ public class WMenu {
         return rec;
     }
     
-    public void updateMenu(String day, String b, String l, String d) {
+    public boolean updateMenu(String day, String b, String l, String d) {
         conn = ConnectDB.setupConnnection();
         try {
             String sql = "update WeeklyMenu set recipe_name=? where weekday=? and meal='Breakfast'";
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setString(1, b);
-            pst.setString(2, day);
-            pst.executeQuery();
+            if(b.equals("-empty-")) {
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, null);
+                pst.setString(2, day);
+                pst.executeQuery();
+            }
+            else {
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, b);
+                pst.setString(2, day);
+                pst.executeQuery();
+            }
             sql = "update WeeklyMenu set recipe_name=? where weekday=? and meal='Lunch'";
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setString(1, l);
-            pst.setString(2, day);
-            pst.executeQuery();
+            if(l.equals("-empty-")){
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, null);
+                pst.setString(2, day);
+                pst.executeQuery();
+            }
+            else {
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, l);
+                pst.setString(2, day);
+                pst.executeQuery();
+            }
             sql = "update WeeklyMenu set recipe_name=? where weekday=? and meal='Dinner'";
-            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
-            pst.setString(1, d);
-            pst.setString(2, day);
-            pst.executeQuery();
-        }
-        catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        finally {
+            if(d.equals("-empty-")){
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, null);
+                pst.setString(2, day);
+                pst.executeQuery();
+            }
+            else {
+                pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+                pst.setString(1, d);
+                pst.setString(2, day);
+                pst.executeQuery();
+            }
             ConnectDB.close(conn);
             ConnectDB.close(pst);
             ConnectDB.close(rs);
+            return true;
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            ConnectDB.close(conn);
+            ConnectDB.close(pst);
+            ConnectDB.close(rs);
+            return false;
         }
     }
     public void resetWeeklyMenu() {
