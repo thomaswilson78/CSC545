@@ -5,7 +5,6 @@ drop table WeeklyMenu cascade constraints;
 drop table IngredientsRecipes cascade constraints;
 drop table RecipeCategory cascade constraints;
 
-
 create table Ingredients(
 ingredient_name varchar(20) primary key,
 calories number(4),
@@ -27,7 +26,7 @@ category_name varchar(20) primary key
 );
 
 create table RecipeCategory(
-recipe_name varchar(50)),
+recipe_name varchar(50),
 category_name varchar(20),
 primary key (recipe_name,category_name)
 );
