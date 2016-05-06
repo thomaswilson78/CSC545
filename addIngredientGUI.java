@@ -13,17 +13,18 @@ import java.*;
  *
  * @author CassieAlyce
  */
+ /*The addIngredient GUI class provides an interface for the user to add new ingredients into the database.*/
 public class addIngredientGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form addIngredientGUI
      */
-    GUI parentWindow;
+    GUI parentWindow; //keep track of the parentWindow, so that we can reference its' GUI elements and functions
     public addIngredientGUI(GUI pWindow) {
         initComponents();
         Ingredient myIngredient = new Ingredient();
-        foodGroupCB.setModel(myIngredient.getFoodGroups());
-        parentWindow = pWindow;
+        foodGroupCB.setModel(myIngredient.getFoodGroups()); //populate foodGroupCB combobox
+        parentWindow = pWindow; //initalize parentWindow
     }
 
     /**
@@ -192,10 +193,11 @@ public class addIngredientGUI extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         Ingredient newIngredient = new Ingredient();
-        
-        if (newIngredient.doesExist(ingredientTF.getText())) {
+        /*Check to see if all ingredient field entries are valid. If so, create the ingredient.*/
+        if (newIngredient.doesExist(ingredientTF.getText())) { //The ingredient already exists in database
             JOptionPane.showMessageDialog(this, "Ingredient Already Exists.");
-        } else {
+        } else {//Ingredient doesn't already exist in the database
+        /*Enusre that all attribute values are positive*/
                 if (Integer.parseInt(caloriesTF.getText()) < 0
                         || Float.parseFloat(proteinTF.getText()) < 0
                         || Float.parseFloat(sugarTextF.getText()) < 0
@@ -203,14 +205,15 @@ public class addIngredientGUI extends javax.swing.JFrame {
                         || Float.parseFloat(sodiumTF.getText()) < 0
                         || Integer.parseInt(quantityTextF.getText()) < 0) {
             JOptionPane.showMessageDialog(this, "All values must be greater than zero.");
-                } else {
+                } else {//All values are positive
                     String fg = (String)foodGroupCB.getSelectedItem();
+                    //Attempt to create the ingredient
                    boolean result = newIngredient.addIngredient(ingredientTF.getText(), 
                     Integer.parseInt(caloriesTF.getText()), Float.parseFloat(proteinTF.getText()),
                    Float.parseFloat(sugarTextF.getText()), Float.parseFloat(fatTextF.getText()),
                    Float.parseFloat(sodiumTF.getText()), fg, 
                    Integer.parseInt(quantityTextF.getText()));
-                   if(result){
+                   if(result){//If the ingredient was added successfully, reset the fields and show MessageDialog
                        JOptionPane.showMessageDialog(this, ""+ingredientTF.getText()+" was added successfully");
                        caloriesTF.setText("");
                        proteinTF.setText("");
@@ -222,7 +225,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
                        parentWindow.ingredientList.setModel(newIngredient.populateIngredientsDropDown());
                        parentWindow.initializeSearchTables();
                    }
-                   else{
+                   else{//The ingredient insertion failed, inform user.
                        JOptionPane.showMessageDialog(this, ""+ingredientTF.getText()+" could not be added.");
                    }
                 }
