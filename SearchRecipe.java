@@ -18,7 +18,7 @@ public class SearchRecipe {
     Connection conn = null;
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
-    
+    //combines ingredients and categories into another arraylist
     public ArrayList<String> getValidRecipes(ArrayList<String> ingred, ArrayList<String> categ)
     {
         Recipes myR = new Recipes();
@@ -37,7 +37,7 @@ public class SearchRecipe {
         
         return validRecipes;
     }
-    
+    //finds objects that intersects with the recipe table and the view that will result in another array list
     private ArrayList<String> getCommonItems(ArrayList<ArrayList<String>> r)
     {
         ArrayList<String> commonItems = new ArrayList<String>();
