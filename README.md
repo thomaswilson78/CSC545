@@ -8,5 +8,4 @@ and calculate a shopping list based on the number ingredients needed with the nu
 
 To do for comments:
 Category.java
-ConnectDB.java
 GUI.java (mostly done)
