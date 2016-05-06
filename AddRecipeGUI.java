@@ -68,18 +68,42 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(32767, 32767));
+        setMinimumSize(new java.awt.Dimension(440, 610));
+        setPreferredSize(new java.awt.Dimension(440, 600));
+        getContentPane().setLayout(null);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Recipe Name:");
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(20, 14, 100, 17);
 
+        recipeNameTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        getContentPane().add(recipeNameTF);
+        recipeNameTF.setBounds(114, 11, 300, 30);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Instructions:");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(24, 57, 90, 17);
 
         instructionsTA.setColumns(20);
         instructionsTA.setRows(5);
         jScrollPane1.setViewportView(instructionsTA);
 
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(114, 55, 300, 160);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Categories:");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(35, 390, 79, 17);
 
         addCatButton.setText("Add Category");
         addCatButton.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +111,8 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                 addCatButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(addCatButton);
+        addCatButton.setBounds(0, 420, 110, 23);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -118,29 +144,45 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
+        getContentPane().add(jScrollPane3);
+        jScrollPane3.setBounds(115, 391, 299, 142);
+
         addRecButton.setText("Add Recipe");
         addRecButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addRecButtonActionPerformed(evt);
             }
         });
+        getContentPane().add(addRecButton);
+        addRecButton.setBounds(167, 539, 120, 23);
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Ingredients:");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(28, 230, 86, 17);
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Select", "Ingredient"
+                "Select", "Ingredient", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane2.setViewportView(jTable2);
@@ -148,68 +190,17 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(0).setMinWidth(50);
             jTable2.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTable2.getColumnModel().getColumn(2).setMinWidth(60);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(60);
+            jTable2.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(jLabel1))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(recipeNameTF)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(addCatButton)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(200, 200, 200)
-                .addComponent(addRecButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(recipeNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addCatButton))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addRecButton)
-                .addContainerGap())
-        );
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(115, 225, 299, 155);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon("W:\\CSC545\\CSC545Project\\src\\csc545project\\addRecipe.png")); // NOI18N
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(0, 0, 424, 573);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -224,7 +215,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             else{
                 Category cg = new Category();
                 cg.addCategory(cat);
-                JOptionPane.showMessageDialog(null, "Item Added Successfully", "Add Category", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Category Added Successfully", "Add Category", JOptionPane.PLAIN_MESSAGE);
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                 model.addRow(new Object[]{false,cat});
             }
@@ -239,6 +230,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         if((!r.equals("")) && !rec.checkExistingRecipes(r)) {
 
             String i = instructionsTA.getText();
+            ArrayList<Integer> n = new ArrayList<>();
             ArrayList<String> cat = new ArrayList<>();
             ArrayList<String> ing = new ArrayList<>();
             for (int j=0; j<jTable1.getRowCount(); j++) {
@@ -247,12 +239,15 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             }
             if(cat.size()>0) {
                 for (int j=0; j<jTable2.getRowCount(); j++)
-                    if((Boolean)jTable2.getValueAt(j, 0))
+                    if((Boolean)jTable2.getValueAt(j, 0)) {
                         ing.add(jTable2.getValueAt(j, 1).toString());
+                        n.add(Integer.parseInt(jTable2.getValueAt(j, 2).toString()));
+                    }
                 if(ing.size()>0) {
-                    rec.addRecipes(r, i, cat, ing);
+                    rec.addRecipes(r, i, n, cat, ing);
                     parentWindow.jList2.setModel(rec.getRecipeNames());
                     parentWindow.updateWMcb();
+                    JOptionPane.showMessageDialog(null, "Recipe Added Successfully!", "Add Recipe", JOptionPane.PLAIN_MESSAGE);
                     this.dispose();
                 }
                 else
@@ -311,6 +306,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
