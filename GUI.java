@@ -838,6 +838,7 @@ public class GUI extends javax.swing.JFrame {
         jList5.setModel(selectedRecipe.getRecipeCategory((String)jList2.getSelectedValue()));
     }//GEN-LAST:event_jList2ValueChanged
 
+    //Clears the ingredients and category tables.
     private void clearBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBTNMouseClicked
         // TODO add your handling code here:
         for(int i = 0; i < searchIngredTable.getRowCount(); i++)
@@ -846,6 +847,7 @@ public class GUI extends javax.swing.JFrame {
             searchCatTable.setValueAt(false, i, 0);
     }//GEN-LAST:event_clearBTNMouseClicked
 
+    //searches based on the criteria give and produces the results in the JList.
     private void searchBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBTNMouseClicked
         // TODO add your handling code here:
         clearSearchJlist();
@@ -889,6 +891,7 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchBTNMouseClicked
 
+    //Updates the ingredients table (both database and GUI) with the quantity purchased for that ingredient.
     private void shoppingSubmitBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shoppingSubmitBTNMouseClicked
         // TODO add your handling code here:
         Ingredient newIngr = new Ingredient();
@@ -905,13 +908,13 @@ public class GUI extends javax.swing.JFrame {
             initializeShoppingTab();
         }
     }//GEN-LAST:event_shoppingSubmitBTNMouseClicked
-    
+    //clears all values in the result list
     private void clearSearchJlist()
     {
         DefaultListModel recipeList = new DefaultListModel();
         searchList.setModel(recipeList);
     }
-    
+    //in the search tab, loads the tables for the categories and ingredients
     public void initializeSearchTables()
     {
         DefaultTableModel dm = (DefaultTableModel) shoppingListTable.getModel();
