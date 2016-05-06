@@ -11,7 +11,7 @@ public class Category {
     Connection conn = null;
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
-    
+    //returns an array list with all the categories in the database.
     public ArrayList<String> allCategories() {
         ArrayList<String> cat = new ArrayList<>();
         conn = ConnectDB.setupConnnection();
@@ -38,6 +38,7 @@ public class Category {
         }
         return cat;
     }
+    //adds a category in to the category table in the database, also adds it to the table in the add recipe gui table.
     public boolean addCategory(String cat) {
         conn = ConnectDB.setupConnnection();
         try {
