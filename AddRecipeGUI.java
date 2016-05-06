@@ -73,7 +73,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(32767, 32767));
         setMinimumSize(new java.awt.Dimension(440, 610));
-        setPreferredSize(new java.awt.Dimension(440, 600));
+        setPreferredSize(new java.awt.Dimension(440, 610));
         getContentPane().setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -93,7 +93,9 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         jLabel2.setBounds(24, 57, 90, 17);
 
         instructionsTA.setColumns(20);
+        instructionsTA.setLineWrap(true);
         instructionsTA.setRows(5);
+        instructionsTA.setWrapStyleWord(true);
         jScrollPane1.setViewportView(instructionsTA);
 
         getContentPane().add(jScrollPane1);
@@ -198,9 +200,12 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(115, 225, 299, 155);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("W:\\CSC545\\CSC545Project\\src\\csc545project\\addRecipe.png")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csc545project/addRecipe.png"))); // NOI18N
+        jLabel5.setMaximumSize(new java.awt.Dimension(32767, 32767));
+        jLabel5.setMinimumSize(new java.awt.Dimension(440, 610));
+        jLabel5.setPreferredSize(new java.awt.Dimension(440, 610));
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(0, 0, 424, 573);
+        jLabel5.setBounds(0, -10, 430, 590);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -217,6 +222,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                 cg.addCategory(cat);
                 JOptionPane.showMessageDialog(null, "Category Added Successfully", "Add Category", JOptionPane.PLAIN_MESSAGE);
                 DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                parentWindow.initializeSearchTables();
                 model.addRow(new Object[]{false,cat});
             }
         } catch (Exception e) {
@@ -247,6 +253,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                     rec.addRecipes(r, i, n, cat, ing);
                     parentWindow.jList2.setModel(rec.getRecipeNames());
                     parentWindow.updateWMcb();
+                    parentWindow.initializeSearchTables();
                     JOptionPane.showMessageDialog(null, "Recipe Added Successfully!", "Add Recipe", JOptionPane.PLAIN_MESSAGE);
                     this.dispose();
                 }

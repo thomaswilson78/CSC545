@@ -179,7 +179,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
         getContentPane().add(proteinTF);
         proteinTF.setBounds(150, 240, 59, 30);
 
-        jLabel10.setIcon(new javax.swing.ImageIcon("W:\\CSC545\\CSC545Project\\src\\csc545project\\Vegetables-Fruits.jpg")); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csc545project/Vegetables-Fruits.jpg"))); // NOI18N
         getContentPane().add(jLabel10);
         jLabel10.setBounds(0, 0, 390, 390);
 
@@ -220,6 +220,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
                        quantityTextF.setText("");
                        ingredientTF.setText("");
                        parentWindow.ingredientList.setModel(newIngredient.populateIngredientsDropDown());
+                       parentWindow.initializeSearchTables();
                    }
                    else{
                        JOptionPane.showMessageDialog(this, ""+ingredientTF.getText()+" could not be added.");

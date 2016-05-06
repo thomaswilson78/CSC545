@@ -220,5 +220,54 @@ public class Ingredient {
         return model;
     }
 
+    public ArrayList<Ingredient> getShoppingList()
+    { 
+        ArrayList<Ingredient> allIngreds = new ArrayList<Ingredient>();
+        conn = ConnectDB.setupConnnection();
+        try {
+
+            String sql = "select ingredient_name, quantity from ingredients";
+            //String sql = "select * from shoppinglist";
+            st = (OracleStatement) conn.createStatement();
+
+            rs = (OracleResultSet) st.executeQuery(sql);
+
+            while (rs.next()) {
+                Ingredient ingred = new Ingredient(); 
+                String name = rs.getString("ingredient_name");
+                int quan = rs.getInt("quantity");
+                ingred.ingredient_name = name;
+                ingred.quantity = quan;
+                allIngreds.add(ingred);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            ConnectDB.close(rs);
+            ConnectDB.close(conn);
+        }
+        
+        return allIngreds;
+    }
+    
+    public void increaseIngredient(String name, int quan)
+    {
+        conn = ConnectDB.setupConnnection();
+        try {
+            String sql = "Update Ingredients set quantity = quantity + ? where ingredient_name = ?";;
+            pst = (OraclePreparedStatement) conn.prepareStatement(sql);
+            pst.setInt(1, quan);
+            pst.setString(2,name);
+            rs = (OracleResultSet) pst.executeQuery();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+             ConnectDB.close(rs);
+            ConnectDB.close(pst);
+           
+            ConnectDB.close(conn);
+        }
+    }
 
 }

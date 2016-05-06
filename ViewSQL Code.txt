@@ -1,6 +1,20 @@
 //Create view with ingredient quantites for all recipes in weeklymenu
 
-select i.INGREDIENT_NAME, sum(i.QUANTITYNEEDED)
-FROM ingredientsrecipes i, (select recipe_name from weeklymenu where recipe_name is not null) wm
-WHERE i.RECIPE_NAME = wm.recipe_name 
+
+CREATE OR REPLACE VIEW recipesForWM AS
+select recipe_name from weeklymenu where recipe_name is not null
+
+
+CREATE OR REPLACE VIEW ingredientsForWM AS
+select i.INGREDIENT_NAME, sum(i.QUANTITYNEEDED) AS quantityneeded
+FROM ingredientsrecipes i, recipesforwm AS rwm
+WHERE i.RECIPE_NAME = rwm.recipe_name 
+group by i.ingredient_name 
+
+
+CREATE OR REPLACE VIEW shoppinglist AS
+select i.INGREDIENT_NAME, (iwm.quantityneeded - i.quantity) AS quantity
+FROM ingredients i, ingredientsforwm AS iwm
+WHERE i.ingredient_name = iwm.INGREDIENT_NAME
+AND iwm.quantityneeded - i.quantity > 0
 group by i.ingredient_name
