@@ -237,8 +237,8 @@ public class Ingredient {
         conn = ConnectDB.setupConnnection();
         try {
 
-            String sql = "select ingredient_name, quantity from ingredients";
-            //String sql = "select * from shoppinglist";
+            //String sql = "select ingredient_name, quantity from ingredients";
+            String sql = "select * from shoppinglist";
             st = (OracleStatement) conn.createStatement();
 
             rs = (OracleResultSet) st.executeQuery(sql);
