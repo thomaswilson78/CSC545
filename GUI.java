@@ -983,6 +983,24 @@ public class GUI extends javax.swing.JFrame {
         sodTF.setText("" + selectedIngredient.sodium + "");
         
     }
+    private void addRecipeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRecipeButtonMouseClicked		
+        		
+    }//GEN-LAST:event_addRecipeButtonMouseClicked		
+ 		
+    private void searchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBTNActionPerformed		
+         // TODO add your handling code here:		
+    }//GEN-LAST:event_searchBTNActionPerformed		
+ 		
+    private void shoppingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shoppingComboBoxActionPerformed		
+         // TODO add your handling code here:		
+    }//GEN-LAST:event_shoppingComboBoxActionPerformed		
+ 		
+    private void shoppingSubmitBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shoppingSubmitBTNActionPerformed		
+ 		
+    }//GEN-LAST:event_shoppingSubmitBTNActionPerformed		
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked		
+         // TODO add your handling code here:		
+    }//GEN-LAST:event_jScrollPane1MouseClicked
     /**
      * @param args the command line arguments
      */
