@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author NewLaptop
  */
 public class AddRecipeGUI extends javax.swing.JFrame {
+    //Used for accessing objects within the main GUI file.
     GUI parentWindow;
     /**
      * Creates new form AddRecipe
@@ -27,6 +28,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         addCategoriesToTable();
         addIngredientsToTable();
     }
+    //Populates categories from the database into the category table
     public void addCategoriesToTable() {
         Category c = new Category();
         ArrayList<String> cat = new ArrayList<>();
@@ -36,6 +38,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             model.addRow(new Object[]{false,temp});
         }
     }
+    //Populates the ingredients table with all ingredients in the database.
     public void addIngredientsToTable() {
         Ingredient ing = new Ingredient();
         ArrayList<String> i = new ArrayList<>();
@@ -210,7 +213,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-   
+    //Opens a dialog box that allows users to enter in a new category, then updates the table with that new category
     private void addCatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCatButtonActionPerformed
         try {
         String cat = JOptionPane.showInputDialog(rootPane, "Please enter a category:", "Add Category", JOptionPane.PLAIN_MESSAGE);
@@ -229,7 +232,8 @@ public class AddRecipeGUI extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_addCatButtonActionPerformed
-
+    //Adds the recipe into all necessary tables in the database, including ingredients needed and quantity, and category.
+    //Also handles any updating any objects that need to be update to the main GUI (i.e. the recipe jList).
     private void addRecButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecButtonActionPerformed
         Recipes rec = new Recipes();
         String r = recipeNameTF.getText();
