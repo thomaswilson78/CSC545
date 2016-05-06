@@ -260,7 +260,7 @@ public class Ingredient {
         
         return allIngreds;
     }
-    /**/
+    /*Increase an ingredient based on the name and quantity*/
     public void increaseIngredient(String name, int quan)
     {
         conn = ConnectDB.setupConnnection();
