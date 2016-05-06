@@ -804,7 +804,7 @@ public class GUI extends javax.swing.JFrame {
     private void ingredientListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ingredientListValueChanged
         updateIngredientFields();
     }//GEN-LAST:event_ingredientListValueChanged
-
+    //populates the fridge tab with ingredients that have a quantity greater than 0
     private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MouseClicked
         ingredientList.setModel(theFridge.populateFridgeList());
     }
@@ -940,6 +940,7 @@ public class GUI extends javax.swing.JFrame {
         }
     }
     
+    //populates shoppingTable and shoppingComboBox with ingredients and quantity from the shoppinglist view
     public void initializeShoppingTab()
     {
         DefaultTableModel dm = (DefaultTableModel) shoppingListTable.getModel();
@@ -960,7 +961,7 @@ public class GUI extends javax.swing.JFrame {
         }
         shoppingComboBox.setModel(new DefaultComboBoxModel(allIngredNames.toArray()));
     }
-    
+    //updates the ingredient fields on the fridge tab with the ingredient info from the ingredientList
     private void updateIngredientFields(){
         String ingrName = (String) ingredientList.getSelectedValue();
         Ingredient selectedIngredient = new Ingredient();
