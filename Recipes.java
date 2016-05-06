@@ -145,7 +145,7 @@ public class Recipes {
         }
         return doesExist;
     }
-    public boolean addRecipes(String name, String inst, ArrayList<String> cat, ArrayList<String> ing) {
+    public boolean addRecipes(String name, String inst, ArrayList<Integer> quan, ArrayList<String> cat, ArrayList<String> ing) {
         conn = ConnectDB.setupConnnection();
         try {
             String sql = "insert into recipes values (?, ?)";
@@ -160,11 +160,12 @@ public class Recipes {
                 pst.setString(2, temp);
                 pst.executeQuery();
             }
-            for (String temp : ing) {
-                sql = "insert into IngredientsRecipes values (?, ?, 1)";
+            for (int i=0;i<ing.size();i++) {
+                sql = "insert into IngredientsRecipes values (?, ?, ?)";
                 pst = (OraclePreparedStatement) conn.prepareStatement(sql);
                 pst.setString(1, name);
-                pst.setString(2, temp);
+                pst.setString(2, ing.get(i));
+                pst.setInt(3, quan.get(i));
                 pst.executeQuery();
             } 
         }

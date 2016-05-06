@@ -16,12 +16,13 @@ import oracle.jdbc.OracleResultSet;
  * @author thomas_wilson78
  */
 public class ConnectDB {
-    public static Connection setupConnnection() {  
+    public static Connection setupConnnection() {
         /*
         String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
         String jdbcUrl = "jdbc:oracle:thin:@csshrpt.eku.edu:1521:cscdb";
         String username = "lafave2016";
         String password = "8256";*/
+        
         
         String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
         String jdbcUrl = "jdbc:oracle:thin:@csc545.cxqvw6gthohp.us-east-1.rds.amazonaws.com:1521/ORCL";

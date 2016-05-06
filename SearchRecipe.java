@@ -24,10 +24,9 @@ public class SearchRecipe {
         Recipes myR = new Recipes();
         ArrayList<String> validRecipes = new ArrayList<String>();
         ArrayList<ArrayList<String>> allRecipes = new ArrayList<ArrayList<String>>();
-        
         for(int i = 0; i < ingred.size(); i++)
         {
-            allRecipes.add(myR.getRecipeByIngredient(ingred.get(i))); 
+            allRecipes.add(myR.getRecipeByIngredient(ingred.get(i)));
         }
         for(int i = 0; i < categ.size(); i++)
         {
@@ -39,7 +38,7 @@ public class SearchRecipe {
         return validRecipes;
     }
     
-    public static ArrayList<String> getCommonItems(ArrayList<ArrayList<String>> r)
+    private ArrayList<String> getCommonItems(ArrayList<ArrayList<String>> r)
     {
         ArrayList<String> commonItems = new ArrayList<String>();
         ArrayList<String> temp = new ArrayList<String>();

@@ -219,15 +219,15 @@ public class Ingredient {
         
         return model;
     }
-    
+
     public ArrayList<Ingredient> getShoppingList()
     { 
         ArrayList<Ingredient> allIngreds = new ArrayList<Ingredient>();
         conn = ConnectDB.setupConnnection();
         try {
 
-            String sql = "select * from shoppinglist";
-
+            String sql = "select ingredient_name, quantity from ingredients";
+            //String sql = "select * from shoppinglist";
             st = (OracleStatement) conn.createStatement();
 
             rs = (OracleResultSet) st.executeQuery(sql);
@@ -269,4 +269,5 @@ public class Ingredient {
             ConnectDB.close(conn);
         }
     }
+
 }

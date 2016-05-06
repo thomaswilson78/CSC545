@@ -53,10 +53,12 @@ public class addIngredientGUI extends javax.swing.JFrame {
         sodiumTF = new javax.swing.JTextField();
         fatTextF = new javax.swing.JTextField();
         proteinTF = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(392, 437));
-        setPreferredSize(new java.awt.Dimension(392, 437));
+        setMinimumSize(new java.awt.Dimension(392, 370));
+        setPreferredSize(new java.awt.Dimension(392, 370));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -71,7 +73,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
             }
         });
         getContentPane().add(submitButton);
-        submitButton.setBounds(150, 350, 122, 23);
+        submitButton.setBounds(150, 320, 122, 23);
 
         ingredientTF.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         ingredientTF.setMinimumSize(new java.awt.Dimension(20, 19));
@@ -177,6 +179,10 @@ public class addIngredientGUI extends javax.swing.JFrame {
         getContentPane().add(proteinTF);
         proteinTF.setBounds(150, 240, 59, 30);
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csc545project/Vegetables-Fruits.jpg"))); // NOI18N
+        getContentPane().add(jLabel10);
+        jLabel10.setBounds(0, 0, 390, 390);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -186,6 +192,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         Ingredient newIngredient = new Ingredient();
+        
         if (newIngredient.doesExist(ingredientTF.getText())) {
             JOptionPane.showMessageDialog(this, "Ingredient Already Exists.");
         } else {
@@ -214,7 +221,6 @@ public class addIngredientGUI extends javax.swing.JFrame {
                        ingredientTF.setText("");
                        parentWindow.ingredientList.setModel(newIngredient.populateIngredientsDropDown());
                        parentWindow.initializeSearchTables();
-                       parentWindow.initializeShoppingTab();
                    }
                    else{
                        JOptionPane.showMessageDialog(this, ""+ingredientTF.getText()+" could not be added.");
@@ -269,6 +275,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox foodGroupCB;
     private javax.swing.JTextField ingredientTF;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
