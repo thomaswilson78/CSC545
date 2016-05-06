@@ -18,12 +18,13 @@ import oracle.jdbc.OracleStatement;
  *
  * @author thomas_wilson78
  */
+ /*The Recipes class contains the functions that are directly relevant to recipes such as getRecipeNames(), getRecipeIngredients(), etc*/
 public class Recipes {
     Connection conn = null;
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
     OracleStatement st = null;
-    
+    /*getRecipeNames() returns a DefaultListModel with all of the recipe names found in the database*/
     public DefaultListModel getRecipeNames(){
         conn = ConnectDB.setupConnnection();
         DefaultListModel model = new DefaultListModel();
@@ -32,7 +33,7 @@ public class Recipes {
             st = (OracleStatement) conn.createStatement();
             rs = (OracleResultSet) st.executeQuery(sql);
             while (rs.next()) {
-                model.addElement(rs.getString("recipe_name"));
+                model.addElement(rs.getString("recipe_name")); //Add next recipe_name to the DefaultListModel
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -42,6 +43,8 @@ public class Recipes {
         }
         return model;
     }
+    /*getRecipeIngredients returns a DefaultListModel with the ingredients for a recipe that has a recipename that matches 
+    the parameter recipeName*/
     public DefaultListModel getRecipeIngredients(String recipeName){
         conn = ConnectDB.setupConnnection();
         DefaultListModel model = new DefaultListModel();
@@ -52,7 +55,7 @@ public class Recipes {
             rs = (OracleResultSet) pst.executeQuery();
             
             while (rs.next()) {
-               model.addElement(rs.getString("ingredient_name"));
+               model.addElement(rs.getString("ingredient_name")); //add ingredient to list of ingredients
             }
         }
         catch (SQLException e) {
@@ -69,6 +72,7 @@ public class Recipes {
         }
         return model;
     }
+    /*getRecipesInstructions() returns a String containing the instructions for a given recipe with the parameter recipeName*/
     public String getRecipesInstructions(String recipeName){
         String instructions = "";
         conn = ConnectDB.setupConnnection();
@@ -80,7 +84,7 @@ public class Recipes {
             rs = (OracleResultSet) pst.executeQuery();
             
             while (rs.next()) {
-               instructions = rs.getString("instructions");
+               instructions = rs.getString("instructions"); //store instructions
             }
         }
         catch (SQLException e) {
@@ -96,17 +100,18 @@ public class Recipes {
         }
         return instructions;
     }
+    /*getRecipeCategory returns a DefaultListModel of categories that the recipe with paramater recipeName falls into*/
     public DefaultListModel getRecipeCategory(String recipeName){
               conn = ConnectDB.setupConnnection();
         DefaultListModel model = new DefaultListModel();
-        try {
+        try {//get categories of recipe
             String sql = "select category_name from RecipeCategory where recipe_name=?";
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setString(1, recipeName);
             rs = (OracleResultSet) pst.executeQuery();
             
             while (rs.next()) {
-               model.addElement(rs.getString("category_name"));
+               model.addElement(rs.getString("category_name")); //add category to DefaultListModel
             }
         }
         catch (SQLException e) {
@@ -122,7 +127,8 @@ public class Recipes {
         }
         return model;
     }
-    
+    /*checkExistingRecipes() returns true when a recipe with recipe name r exists, returns false when recipe with recipe
+    name r does not exist.*/
     public boolean checkExistingRecipes(String r) {
         conn = ConnectDB.setupConnnection();
         boolean doesExist = false;
@@ -132,7 +138,7 @@ public class Recipes {
             pst.setString(1, r);
             rs = (OracleResultSet) pst.executeQuery();
             
-            if (rs.isBeforeFirst())
+            if (rs.isBeforeFirst())//If recipe_name is found set doesExist to true
                 doesExist = true;
         }
         catch (SQLException e) {
