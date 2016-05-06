@@ -17,7 +17,7 @@ public class WMenu {
     Connection conn = null;
     OraclePreparedStatement pst = null;
     OracleResultSet rs = null;
-
+    //function will create and return an array list with a full list of the meal plan for the provided day.
     public ArrayList<String> changeDay(String day) {
         ArrayList<String> rec = new ArrayList<String>();
         conn = ConnectDB.setupConnnection();
@@ -41,7 +41,7 @@ public class WMenu {
         }
         return rec;
     }
-    
+    //Grabs all the recipes in the database and populates them in the meal combo boxes in the Weekly Plan tab
     public ArrayList<String> allRecipes() {
         ArrayList<String> rec = new ArrayList<>();
         conn = ConnectDB.setupConnnection();
@@ -68,7 +68,8 @@ public class WMenu {
         }
         return rec;
     }
-    
+    //Grabs the user's input and updates the weeklymenu table in the data base with the provided information for that day. If
+    //the vaule is empty, than a null value will be inserted instead.
     public boolean updateMenu(String day, String b, String l, String d) {
         conn = ConnectDB.setupConnnection();
         try {
@@ -124,6 +125,7 @@ public class WMenu {
             return false;
         }
     }
+    //sets all the meal values in the weeklymenu table to null
     public void resetWeeklyMenu() {
         conn = ConnectDB.setupConnnection();
         try {
