@@ -254,6 +254,8 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                     rec.addRecipes(r, i, cat, ing);
                     parentWindow.jList2.setModel(rec.getRecipeNames());
                     parentWindow.updateWMcb();
+                    parentWindow.initializeSearchTables();
+                    parentWindow.initializeShoppingTab();
                     this.dispose();
                 }
                 else

@@ -213,6 +213,8 @@ public class addIngredientGUI extends javax.swing.JFrame {
                        quantityTextF.setText("");
                        ingredientTF.setText("");
                        parentWindow.ingredientList.setModel(newIngredient.populateIngredientsDropDown());
+                       parentWindow.initializeSearchTables();
+                       parentWindow.initializeShoppingTab();
                    }
                    else{
                        JOptionPane.showMessageDialog(this, ""+ingredientTF.getText()+" could not be added.");

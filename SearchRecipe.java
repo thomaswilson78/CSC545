@@ -24,6 +24,7 @@ public class SearchRecipe {
         Recipes myR = new Recipes();
         ArrayList<String> validRecipes = new ArrayList<String>();
         ArrayList<ArrayList<String>> allRecipes = new ArrayList<ArrayList<String>>();
+        
         for(int i = 0; i < ingred.size(); i++)
         {
             allRecipes.add(myR.getRecipeByIngredient(ingred.get(i))); 
@@ -38,9 +39,8 @@ public class SearchRecipe {
         return validRecipes;
     }
     
-    private ArrayList<String> getCommonItems(ArrayList<ArrayList<String>> r)
+    public static ArrayList<String> getCommonItems(ArrayList<ArrayList<String>> r)
     {
-        
         ArrayList<String> commonItems = new ArrayList<String>();
         ArrayList<String> temp = new ArrayList<String>();
         
@@ -51,13 +51,13 @@ public class SearchRecipe {
         else
         {
             commonItems = r.get(0);
-            for(int i = 0; i < r.size(); i++)
+            for(int i = 1; i < r.size(); i++)
             {
                 for(int j = 0; j < commonItems.size(); j++)
                 {
                     for(int k = 0; k < r.get(i).size(); k++)
                     {
-                        if(commonItems.get(j) == r.get(i).get(k))
+                        if(commonItems.get(j).equals(r.get(i).get(k)))
                             temp.add(commonItems.get(j));
                     }
                 }

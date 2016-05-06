@@ -32,7 +32,7 @@ public class GUI extends javax.swing.JFrame {
         updateShoppingComponents();
         updateRecipeComponents();
         initializeSearchTables();
-        initializeShoppingTable();
+        initializeShoppingTab();
     }
 
     /**
@@ -46,7 +46,6 @@ public class GUI extends javax.swing.JFrame {
     }
     void updateShoppingComponents(){
         Ingredient nextIngr = new Ingredient();
-        jComboBox2.setModel(nextIngr.populateIngredientsDropDown());
     }
     private void updateFridgeComponents(){
         ingredientList.setModel(theFridge.populateFridgeList());
@@ -148,24 +147,24 @@ public class GUI extends javax.swing.JFrame {
         wmClearButton = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
+        searchList = new javax.swing.JList();
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         searchBTN = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        searchCatTable = new javax.swing.JTable();
         jScrollPane9 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        searchIngredTable = new javax.swing.JTable();
         clearBTN = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        shoppingListTable = new javax.swing.JTable();
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        shoppingComboBox = new javax.swing.JComboBox();
         quanTF = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        shoppingSubmitBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -572,7 +571,7 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Weekly Menu", jPanel4);
 
-        jScrollPane3.setViewportView(jList3);
+        jScrollPane3.setViewportView(searchList);
 
         jLabel39.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel39.setText("Ingredients");
@@ -595,7 +594,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("Results");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        searchCatTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -618,14 +617,14 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane8.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(50);
+        jScrollPane8.setViewportView(searchCatTable);
+        if (searchCatTable.getColumnModel().getColumnCount() > 0) {
+            searchCatTable.getColumnModel().getColumn(0).setMinWidth(50);
+            searchCatTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+            searchCatTable.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        searchIngredTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -648,11 +647,11 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane9.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setMinWidth(50);
-            jTable3.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable3.getColumnModel().getColumn(0).setMaxWidth(50);
+        jScrollPane9.setViewportView(searchIngredTable);
+        if (searchIngredTable.getColumnModel().getColumnCount() > 0) {
+            searchIngredTable.getColumnModel().getColumn(0).setMinWidth(50);
+            searchIngredTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+            searchIngredTable.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
         clearBTN.setText("Clear");
@@ -718,7 +717,7 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Search", jPanel11);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        shoppingListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -734,28 +733,28 @@ public class GUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(100);
+        jScrollPane4.setViewportView(shoppingListTable);
+        if (shoppingListTable.getColumnModel().getColumnCount() > 0) {
+            shoppingListTable.getColumnModel().getColumn(1).setMinWidth(100);
+            shoppingListTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+            shoppingListTable.getColumnModel().getColumn(1).setMaxWidth(100);
         }
 
         jLabel47.setText("Add Ingredient To Fridge");
 
         jLabel48.setText("Quantity");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        shoppingComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        shoppingComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                shoppingComboBoxActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Submit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        shoppingSubmitBTN.setText("Submit");
+        shoppingSubmitBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                shoppingSubmitBTNActionPerformed(evt);
             }
         });
 
@@ -768,7 +767,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(shoppingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -776,7 +775,7 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(quanTF, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(shoppingSubmitBTN)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -790,9 +789,9 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jLabel48))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(shoppingComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(quanTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(shoppingSubmitBTN))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
                 .addContainerGap())
@@ -840,17 +839,25 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchBTNActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void shoppingComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shoppingComboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_shoppingComboBoxActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void shoppingSubmitBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shoppingSubmitBTNActionPerformed
         Ingredient newIngr = new Ingredient();
-        String ingrName = (String)jComboBox2.getSelectedItem();
-        newIngr.setIngredient(ingrName);
-        newIngr.upIngredient(Integer.parseInt(quanTF.getText()));
-        quanTF.setText("");
-    }//GEN-LAST:event_jButton2ActionPerformed
+        String ingrName = (String)shoppingComboBox.getSelectedItem();
+        if (!quanTF.getText().matches("[0-9]+"))
+        {
+            JOptionPane.showMessageDialog(null, "Quantity must be a number!");
+        } 
+        else 
+        {
+            int quan = Integer.parseInt(quanTF.getText());
+            newIngr.increaseIngredient(ingrName, quan);
+            quanTF.setText("");
+            initializeShoppingTab();
+        }
+    }//GEN-LAST:event_shoppingSubmitBTNActionPerformed
 
     private void daycboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daycboxActionPerformed
         loadMenuDayWM();
@@ -884,7 +891,7 @@ public class GUI extends javax.swing.JFrame {
             System.out.println(selectedIngredient.quantity);
             updateIngredientFields();
         }
-        
+        initializeShoppingTab();
     }//GEN-LAST:event_upQuanButtonActionPerformed
 
     private void downQuanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downQuanButtonActionPerformed
@@ -908,6 +915,7 @@ public class GUI extends javax.swing.JFrame {
             selectedIngredient.subtractIngredient(1);
             updateIngredientFields();
         }
+        initializeShoppingTab();
     }//GEN-LAST:event_downQuanButtonActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
@@ -955,8 +963,8 @@ public class GUI extends javax.swing.JFrame {
         ArrayList<String> categList = new ArrayList<String>();
         ArrayList<String> validList = new ArrayList<String>();
         //Move data from jTable3 and jTable 2 into  DefaultTableModels for value evaluation
-        DefaultTableModel categTable = (DefaultTableModel) jTable2.getModel();
-        DefaultTableModel ingredTable = (DefaultTableModel) jTable3.getModel();
+        DefaultTableModel categTable = (DefaultTableModel) searchCatTable.getModel();
+        DefaultTableModel ingredTable = (DefaultTableModel) searchIngredTable.getModel();
         for(int i = 0; i < categTable.getRowCount(); i++)
         {
             //If the checkbox for a row is checked selected that rows category
@@ -968,7 +976,6 @@ public class GUI extends javax.swing.JFrame {
             //If the checkbox for a row is checked selected that rows ingredient
             if((boolean)ingredTable.getValueAt(i, 0))
             {
-                System.out.println(ingredTable.getValueAt(i, 1));
                 ingredList.add(ingredTable.getValueAt(i, 1).toString());
             }
         }
@@ -988,29 +995,35 @@ public class GUI extends javax.swing.JFrame {
                 recipeList.add(i, validList.get(i)); 
             }
 
-            jList3.setModel(recipeList);
+            searchList.setModel(recipeList);
         }
     }//GEN-LAST:event_searchBTNMouseClicked
 
     private void clearBTNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearBTNMouseClicked
         // TODO add your handling code here:
-         for(int i = 0; i < jTable3.getRowCount(); i++)
-            jTable3.setValueAt(false, i, 0);
-        for(int i = 0; i < jTable2.getRowCount(); i++)
-            jTable2.setValueAt(false, i, 0);
+         for(int i = 0; i < searchIngredTable.getRowCount(); i++)
+            searchIngredTable.setValueAt(false, i, 0);
+        for(int i = 0; i < searchCatTable.getRowCount(); i++)
+            searchCatTable.setValueAt(false, i, 0);
     }//GEN-LAST:event_clearBTNMouseClicked
     
     private void clearSearchJlist()
     {
         DefaultListModel recipeList = new DefaultListModel();
-        jList3.setModel(recipeList);
+        searchList.setModel(recipeList);
     }
     
-    private void initializeSearchTables()
+    public void initializeSearchTables()
     {
+        DefaultTableModel dm = (DefaultTableModel) shoppingListTable.getModel();
+        int rowCount = dm.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dm.removeRow(i);
+        }
         Ingredient ingred = new Ingredient();
         ArrayList<String> allIngred = ingred.getIngredientList();
-        DefaultTableModel ingredTable = (DefaultTableModel) jTable3.getModel();
+        DefaultTableModel ingredTable = (DefaultTableModel) searchIngredTable.getModel();
         for(int i = 0; i < allIngred.size(); i++)
         {
             ingredTable.addRow(new Object[] {false ,allIngred.get(i)}); 
@@ -1018,23 +1031,32 @@ public class GUI extends javax.swing.JFrame {
         
         Category cat = new Category();
         ArrayList<String> allCateg = cat.allCategories();
-        DefaultTableModel categTable = (DefaultTableModel) jTable2.getModel();
+        DefaultTableModel categTable = (DefaultTableModel) searchCatTable.getModel();
         for(int i = 0; i < allCateg.size(); i++)
         {
             categTable.addRow(new Object[] {false ,allCateg.get(i)}); 
         }
     }
     
-    private void initializeShoppingTable()
+    public void initializeShoppingTab()
     {
+        DefaultTableModel dm = (DefaultTableModel) shoppingListTable.getModel();
+        int rowCount = dm.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dm.removeRow(i);
+        }
         Ingredient ingred = new Ingredient();
         ArrayList<Ingredient> allIngred = new ArrayList<Ingredient>();
+        ArrayList<String> allIngredNames = new ArrayList<String>();
         allIngred = ingred.getShoppingList();
-        DefaultTableModel ingredTable = (DefaultTableModel) jTable3.getModel();
+        DefaultTableModel ingredTable = (DefaultTableModel) shoppingListTable.getModel();
         for(int i = 0; i < allIngred.size(); i++)
         {
-            ingredTable.addRow(new Object[] {allIngred.get(i).ingredient_name ,allIngred.get(i).quantity}); 
+            ingredTable.addRow(new Object[] {allIngred.get(i).ingredient_name, allIngred.get(i).quantity}); 
+            allIngredNames.add(allIngred.get(i).ingredient_name);
         }
+        shoppingComboBox.setModel(new DefaultComboBoxModel(allIngredNames.toArray()));
     }
     
     private void updateIngredientFields(){
@@ -1106,8 +1128,6 @@ public class GUI extends javax.swing.JFrame {
     public javax.swing.JList ingredientList;
     private javax.swing.JTextField itemTF;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1132,7 +1152,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     public javax.swing.JList jList2;
-    private javax.swing.JList jList3;
     private javax.swing.JList jList4;
     private javax.swing.JList jList5;
     private javax.swing.JPanel jPanel1;
@@ -1152,9 +1171,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JComboBox mbcbox;
@@ -1164,6 +1180,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField quanTF;
     private javax.swing.JTextField quantityTF;
     private javax.swing.JButton searchBTN;
+    private javax.swing.JTable searchCatTable;
+    private javax.swing.JTable searchIngredTable;
+    private javax.swing.JList searchList;
+    private javax.swing.JComboBox shoppingComboBox;
+    private javax.swing.JTable shoppingListTable;
+    private javax.swing.JButton shoppingSubmitBTN;
     private javax.swing.JTextField sodTF;
     private javax.swing.JTextField sugarTF;
     private javax.swing.JButton upQuanButton;

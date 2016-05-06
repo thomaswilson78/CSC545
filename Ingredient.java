@@ -232,8 +232,8 @@ public class Ingredient {
 
             rs = (OracleResultSet) st.executeQuery(sql);
 
-            Ingredient ingred = new Ingredient(); 
             while (rs.next()) {
+                Ingredient ingred = new Ingredient(); 
                 String name = rs.getString("ingredient_name");
                 int quan = rs.getInt("quantity");
                 ingred.ingredient_name = name;
