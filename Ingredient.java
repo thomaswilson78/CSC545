@@ -15,6 +15,9 @@ import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
 import oracle.jdbc.OracleStatement;
 
+/*The Ingredient class stores the information pertaining to ingredients such as name, calories, fat, etc.
+It also holds the funtions that relevant to ingredients, such as updating the ingredients components, etc.
+*/
 public class Ingredient {
 
     String ingredient_name;
@@ -33,7 +36,7 @@ public class Ingredient {
     Ingredient() {
 
     }
-
+//Initialize ingredient with relevant properties
     Ingredient(String i, int c, float p, float su, float f, float so, String food, int q) {
         ingredient_name = i;
         calories = c;
@@ -44,10 +47,12 @@ public class Ingredient {
         food_group = food;
         quantity = q;
     }
+    //get FoodGroups() returns a DefaultComboBoxModel that contains all possible food groups.
     public DefaultComboBoxModel getFoodGroups(){
         String[] fgs = {"Fruits", "Vegetables", "Proteins","Dairy","Grains","Sugar/Fat"};
         return new DefaultComboBoxModel(fgs);
     }
+    //getIngredientList() returns an ArrayList of all ingredient_names in the database
     public ArrayList<String> getIngredientList(){
          ArrayList<String> ingredients = new ArrayList<>();
         conn = ConnectDB.setupConnnection();
@@ -74,6 +79,8 @@ public class Ingredient {
         }
         return ingredients;
     }
+    /*doesExist() returns true when an ingredient with the parameter name already exists in the database.
+    Returns false when the ingredient does not already exist*/
     public boolean doesExist(String name){
         conn = ConnectDB.setupConnnection();
         boolean doesExist = false;
@@ -83,7 +90,7 @@ public class Ingredient {
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setString(1, name);
             rs = (OracleResultSet) pst.executeQuery();
-            if(rs.next()){
+            if(rs.next()){ //if any results are found
                 doesExist = true;
             }
         } catch (Exception e) {
@@ -95,11 +102,12 @@ public class Ingredient {
         }
         return doesExist;
     }
+    /*upIngredient() increases the quantity attribute of an ingredient by the parameter amount*/
     public void upIngredient(int amount){
         conn = ConnectDB.setupConnnection();
         try {
             String sql = "Update Ingredients set quantity=? where ingredient_name=?";
-            quantity+=amount;
+            quantity+=amount; //get ingredients current quanitity and add amount to it
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setInt(1, quantity);
             pst.setString(2,ingredient_name);
@@ -115,6 +123,7 @@ public class Ingredient {
         }
     
     }
+    /*addIngredient() inserts an ingredient into the database with the given attributes.*/
     public boolean addIngredient(String name, int cal, float pro, float sug, float fat, float sod, String fg, int quan){
         conn = ConnectDB.setupConnnection();
         boolean success = false;
@@ -134,7 +143,7 @@ public class Ingredient {
                     pst.setInt(8,quan);
 
                 int count = pst.executeUpdate();
-                if(count>0){
+                if(count>0){ //if the insertion succeeded, return true.
                     success = true;
                 }
 
@@ -146,13 +155,13 @@ public class Ingredient {
             }
             return success;
         }
-    
+    /*subtractIngredient() decrements an ingredient quanitity by the parameter amount*/
         public void subtractIngredient(int amount){
         if(quantity-amount>=0){
         conn = ConnectDB.setupConnnection();
         try {
             String sql = "Update Ingredients set quantity=? where ingredient_name=?";
-            quantity-=amount;
+            quantity-=amount; //decrement the quantity by amount
             pst = (OraclePreparedStatement) conn.prepareStatement(sql);
             pst.setInt(1, quantity);
             pst.setString(2,ingredient_name);
@@ -168,6 +177,7 @@ public class Ingredient {
         }
     }
     }
+    /*setIngredient() sets the attributes of the ingredient object with the specified ingredient name*/
     public void setIngredient(String ingrName){
         conn = ConnectDB.setupConnnection();
         try {
@@ -195,6 +205,7 @@ public class Ingredient {
             ConnectDB.close(conn);
         }
     }
+    /*populateIngredientsDropDown() returns a DefaultComboBoxModel containing all of the ingredient names in the database*/
     public DefaultComboBoxModel populateIngredientsDropDown() {
         conn = ConnectDB.setupConnnection();
         DefaultComboBoxModel model = new DefaultComboBoxModel();
@@ -219,7 +230,7 @@ public class Ingredient {
         
         return model;
     }
-
+/*getShoppingList() returns an ArrayList of Ingredients that are candidates for the user's shopping list*/
     public ArrayList<Ingredient> getShoppingList()
     { 
         ArrayList<Ingredient> allIngreds = new ArrayList<Ingredient>();
@@ -249,7 +260,7 @@ public class Ingredient {
         
         return allIngreds;
     }
-    
+    /**/
     public void increaseIngredient(String name, int quan)
     {
         conn = ConnectDB.setupConnnection();
