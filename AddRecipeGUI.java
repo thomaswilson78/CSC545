@@ -217,7 +217,7 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     private void addCatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCatButtonActionPerformed
         try {
         String cat = JOptionPane.showInputDialog(rootPane, "Please enter a category:", "Add Category", JOptionPane.PLAIN_MESSAGE);
-            if(cat.charAt(0)==' ') {
+            if(cat.charAt(0)==' ' || cat.length()>20) {
                 JOptionPane.showMessageDialog(null, "Not a valid entry.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -237,9 +237,8 @@ public class AddRecipeGUI extends javax.swing.JFrame {
     private void addRecButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecButtonActionPerformed
         Recipes rec = new Recipes();
         String r = recipeNameTF.getText();
-        if((!r.equals("")) && !rec.checkExistingRecipes(r)) {
-
-            String i = instructionsTA.getText();
+        String i = instructionsTA.getText();
+        if((!r.equals("")) && !rec.checkExistingRecipes(r) && r.length()<20 && i.length()>0) {
             ArrayList<Integer> n = new ArrayList<>();
             ArrayList<String> cat = new ArrayList<>();
             ArrayList<String> ing = new ArrayList<>();
@@ -268,10 +267,13 @@ public class AddRecipeGUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please select at least one category.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else
-            if(r.equals(""))
-                JOptionPane.showMessageDialog(null, "Please enter a recipe name.", "Error", JOptionPane.ERROR_MESSAGE);
+            if(r.equals("") || r.length()>20)
+                JOptionPane.showMessageDialog(null, "Recipe name not valid. Max 20 characters.", "Error", JOptionPane.ERROR_MESSAGE);
+            else if(i.length()<=0)
+                JOptionPane.showMessageDialog(null, "Please enter the instructions.", "Error", JOptionPane.ERROR_MESSAGE);
             else
                 JOptionPane.showMessageDialog(null, "Recipe already exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                
     }//GEN-LAST:event_addRecButtonActionPerformed
 
     /**

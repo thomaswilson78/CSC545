@@ -133,7 +133,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Sodium (g)");
+        jLabel7.setText("Sodium (mg)");
         getContentPane().add(jLabel7);
         jLabel7.setBounds(10, 290, 100, 17);
 
@@ -209,7 +209,7 @@ public class addIngredientGUI extends javax.swing.JFrame {
                     String fg = (String)foodGroupCB.getSelectedItem();
                     //Attempt to create the ingredient
                    boolean result = newIngredient.addIngredient(ingredientTF.getText(), 
-                    Integer.parseInt(caloriesTF.getText()), Float.parseFloat(proteinTF.getText()),
+                   Integer.parseInt(caloriesTF.getText()), Float.parseFloat(proteinTF.getText()),
                    Float.parseFloat(sugarTextF.getText()), Float.parseFloat(fatTextF.getText()),
                    Float.parseFloat(sodiumTF.getText()), fg, 
                    Integer.parseInt(quantityTextF.getText()));
@@ -224,6 +224,8 @@ public class addIngredientGUI extends javax.swing.JFrame {
                        ingredientTF.setText("");
                        parentWindow.ingredientList.setModel(newIngredient.populateIngredientsDropDown());
                        parentWindow.initializeSearchTables();
+                       parentWindow.initializeShoppingTab();
+                       this.dispose();
                    }
                    else{//The ingredient insertion failed, inform user.
                        JOptionPane.showMessageDialog(this, ""+ingredientTF.getText()+" could not be added.");

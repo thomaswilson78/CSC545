@@ -180,7 +180,6 @@ public class GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(680, 340));
-        setPreferredSize(new java.awt.Dimension(680, 340));
         setResizable(false);
 
         jTabbedPane2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -542,7 +541,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel40.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel40.setForeground(new java.awt.Color(255, 255, 102));
-        jLabel40.setText("Catagories");
+        jLabel40.setText("Categories");
         jPanel11.add(jLabel40);
         jLabel40.setBounds(504, 11, 74, 17);
 
@@ -720,7 +719,7 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
         );
 
         jTabbedPane2.getAccessibleContext().setAccessibleName("Fridge");
@@ -805,7 +804,7 @@ public class GUI extends javax.swing.JFrame {
         updateIngredientFields();
     }//GEN-LAST:event_ingredientListValueChanged
     //populates the fridge tab with ingredients that have a quantity greater than 0
-    private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MouseClicked
+    private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {                                          
         ingredientList.setModel(theFridge.populateFridgeList());
     }
     
@@ -918,10 +917,9 @@ public class GUI extends javax.swing.JFrame {
     public void initializeSearchTables()
     {
         DefaultTableModel dm = (DefaultTableModel) shoppingListTable.getModel();
-        int rowCount = dm.getRowCount();
         //Remove rows one by one from the end of the table
-        for (int i = rowCount - 1; i >= 0; i--) {
-            dm.removeRow(i);
+        for (int i = 0; i < dm.getRowCount(); i++) {
+            dm.removeRow(0);
         }
         Ingredient ingred = new Ingredient();
         ArrayList<String> allIngred = ingred.getIngredientList();
@@ -998,9 +996,9 @@ public class GUI extends javax.swing.JFrame {
     private void shoppingSubmitBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shoppingSubmitBTNActionPerformed		
  		
     }//GEN-LAST:event_shoppingSubmitBTNActionPerformed		
-    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked		
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {                                            
          // TODO add your handling code here:		
-    }//GEN-LAST:event_jScrollPane1MouseClicked
+    }                                         
     /**
      * @param args the command line arguments
      */
